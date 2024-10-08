@@ -1,0 +1,84 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+                0x0000000000080000                . = 0x80000
+
+.text.boot      0x0000000000080000        0xc
+ *(.text.boot)
+ .text.boot     0x0000000000080000        0xc build/boot_s.o
+                0x0000000000080000                _start
+
+.text           0x000000000008000c        0x8
+ *(.text)
+ .text          0x000000000008000c        0x8 build/kernel_entry_c.o
+                0x000000000008000c                test_main
+ .text          0x0000000000080014        0x0 build/boot_s.o
+
+.iplt           0x0000000000080014        0x0
+ .iplt          0x0000000000080014        0x0 build/boot_s.o
+
+.rodata
+ *(.rodata)
+
+.eh_frame       0x0000000000080018       0x28
+ .eh_frame      0x0000000000080018       0x28 build/kernel_entry_c.o
+
+.rela.dyn       0x0000000000080040        0x0
+ .rela.iplt     0x0000000000080040        0x0 build/boot_s.o
+
+.data           0x0000000000080040        0x0
+ *(.data)
+ .data          0x0000000000080040        0x0 build/kernel_entry_c.o
+ .data          0x0000000000080040        0x0 build/boot_s.o
+
+.igot.plt       0x0000000000080040        0x0
+ .igot.plt      0x0000000000080040        0x0 build/boot_s.o
+                0x0000000000080040                . = ALIGN (0x8)
+                0x0000000000080040                bss_begin = .
+
+.bss            0x0000000000080040        0x0
+ *(.bss*)
+ .bss           0x0000000000080040        0x0 build/kernel_entry_c.o
+ .bss           0x0000000000080040        0x0 build/boot_s.o
+                0x0000000000080040                bss_end = .
+LOAD build/kernel_entry_c.o
+LOAD build/boot_s.o
+OUTPUT(build/aarch_test.elf elf64-littleaarch64)
+LOAD linker stubs
+
+.debug_info     0x0000000000000000       0x81
+ .debug_info    0x0000000000000000       0x53 build/kernel_entry_c.o
+ .debug_info    0x0000000000000053       0x2e build/boot_s.o
+
+.debug_abbrev   0x0000000000000000       0x4d
+ .debug_abbrev  0x0000000000000000       0x39 build/kernel_entry_c.o
+ .debug_abbrev  0x0000000000000039       0x14 build/boot_s.o
+
+.debug_aranges  0x0000000000000000       0x60
+ .debug_aranges
+                0x0000000000000000       0x30 build/kernel_entry_c.o
+ .debug_aranges
+                0x0000000000000030       0x30 build/boot_s.o
+
+.debug_line     0x0000000000000000       0x8a
+ .debug_line    0x0000000000000000       0x4c build/kernel_entry_c.o
+ .debug_line    0x000000000000004c       0x3e build/boot_s.o
+
+.debug_str      0x0000000000000000       0xaf
+ .debug_str     0x0000000000000000       0x98 build/kernel_entry_c.o
+ .debug_str     0x0000000000000098       0x17 build/boot_s.o
+                                         0x2f (size before relaxing)
+
+.comment        0x0000000000000000       0x2b
+ .comment       0x0000000000000000       0x2b build/kernel_entry_c.o
+                                         0x2c (size before relaxing)
+
+.note.GNU-stack
+                0x0000000000000000        0x0
+ .note.GNU-stack
+                0x0000000000000000        0x0 build/kernel_entry_c.o
