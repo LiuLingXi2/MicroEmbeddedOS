@@ -1,5 +1,5 @@
-#include "../include/define.h"
-
+#include "test_define.h"
+#include "reg_offset.h"
 
     .section ".text.boot"
 
@@ -10,3 +10,7 @@ _start:
 
 proc_main:
     b proc_main
+
+e12_entry:
+    
+    eret
