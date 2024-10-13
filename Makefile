@@ -10,8 +10,10 @@ COPS += -DCONFIG_BOARD_PI4B
 QEMU_FLAGS  += -machine raspi4b1g
 endif
 
-COPS += -g -Wall -nostdlib -nostdinc -Iinclude
+COPS += -g -Wall -nostdlib -Iinclude
 ASMOPS = -g -Iinclude 
+
+COPS += -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar
 
 BUILD_DIR = build
 SRC_DIR = src
@@ -48,5 +50,3 @@ run:
 	qemu-system-aarch64 $(QEMU_FLAGS) -kernel $(BUILD_DIR)/aarch_test.bin
 debug:
 	qemu-system-aarch64 $(QEMU_FLAGS) -kernel $(BUILD_DIR)/aarch_test.bin -S -s
-
-

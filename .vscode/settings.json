@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "*.S": "arm64",
+        "pl_uart.h": "c",
+        "limits": "c",
+        "ptrace.h": "c",
+        "processor-flags.h": "c"
+    }
+}
