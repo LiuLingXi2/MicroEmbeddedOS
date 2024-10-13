@@ -2,6 +2,8 @@
 #ifndef _P_IO_H
 #define _P_BASE_H
 
+#include "asm/base.h"
+
 #if 1
 #define __arch_getl(a)			(*(volatile unsigned int *)(a))
 #define __arch_putl(v,a)		(*(volatile unsigned int *)(a) = (v))

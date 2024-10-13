@@ -1,8 +1,9 @@
 
 #include "pl_uart.h"
 #include "printk.h"
-
-extern void trigger_alignment(void);
+#include "gic.h"
+#include "irq.h"
+#include "timer.h"
 
 extern char _text_boot[], _etext_boot[];
 extern char _text[], _etext[];
@@ -57,21 +58,23 @@ void bad_mode(struct pt_regs *regs, int reason, unsigned int esr)
 			esr);
 }
 
-int kernel_main()
+void kernel_main(void)
 {
-	uart_init(); // init pl0
-    init_printk_done();
+	uart_init();
+    printk_init();
 
-	uart_send_string("Welcome BenOS!\r\n");
-
-    // printk("printk init done\n");
+	uart_send_string("Welcome MicroEmbeddedOS!\r\n");
 
 	pmem_layout();
-    // trigger_alignment();
+
+	gic_init(0, GIC_DISPATCH, GIC_CPU);
+
+	local_timer_init();
+	system_timer_init();
+
+	raw_local_irq_enable();
 
 	while (1) {
 		uart_send(uart_recv());
 	}
-
-    return 0;
 }

@@ -16,181 +16,237 @@ Linker script and memory map
                 0x0000000000080080                _etext_boot = .
                 0x0000000000080080                _text = .
 
-.text           0x0000000000080800     0x2030
+.text           0x0000000000080800     0x3040
  *(.text)
  .text          0x0000000000080800     0x11a0 build/printk_c.o
                 0x0000000000080c58                myprintf
-                0x00000000000817c0                init_printk_done
+                0x00000000000817c0                printk_init
                 0x0000000000081848                printk
- .text          0x00000000000819a0      0x1b8 build/init_c.o
-                0x0000000000081ad8                bad_mode
-                0x0000000000081b28                kernel_main
- .text          0x0000000000081b58       0xa8 build/string_c.o
-                0x0000000000081b58                strlen
-                0x0000000000081b9c                memcpy
- .text          0x0000000000081c00      0x260 build/pl_uart_c.o
-                0x0000000000081c00                uart_send
-                0x0000000000081c50                uart_recv
-                0x0000000000081c98                uart_send_string
-                0x0000000000081cf4                uart_init
-                0x0000000000081e2c                putchar
- *fill*         0x0000000000081e60      0x1a0 
- .text          0x0000000000082000      0x820 build/entry_s.o
-                0x0000000000082000                vectors
-                0x0000000000082806                trigger_alignment
- .text          0x0000000000082820       0x10 build/mm_s.o
-                0x0000000000082820                memzero
- .text          0x0000000000082830        0x0 build/boot_s.o
-                0x0000000000082830                _etext = .
-                0x0000000000082830                _rodata = .
+ .text          0x00000000000819a0      0x1e8 build/init_c.o
+                0x0000000000081ae4                bad_mode
+                0x0000000000081b34                kernel_main
+ .text          0x0000000000081b88       0x18 build/irq_c.o
+                0x0000000000081b88                irq_handle
+ .text          0x0000000000081ba0       0xa8 build/string_c.o
+                0x0000000000081ba0                strlen
+                0x0000000000081be4                memcpy
+ .text          0x0000000000081c48      0x260 build/pl_uart_c.o
+                0x0000000000081c48                uart_send
+                0x0000000000081c98                uart_recv
+                0x0000000000081ce0                uart_send_string
+                0x0000000000081d3c                uart_init
+                0x0000000000081e74                putchar
+ .text          0x0000000000081ea8      0x5fc build/gic_c.o
+                0x0000000000081f68                gicv2_mask_irq
+                0x0000000000081f8c                gicv2_unmask_irq
+                0x0000000000082234                gic_cpu_init
+                0x000000000008230c                gic_handle_irq
+                0x00000000000823c0                gic_init
+ .text          0x00000000000824a4      0x190 build/timer_c.o
+                0x00000000000824d0                local_timer_init
+                0x0000000000082500                system_timer_init
+                0x0000000000082584                handle_timer_irq
+                0x00000000000825b4                handle_stimer_irq
+ *fill*         0x0000000000082634      0x1cc 
+ .text          0x0000000000082800     0x1030 build/entry_s.o
+                0x0000000000083000                vectors
+                0x0000000000083806                trigger_alignment
+ .text          0x0000000000083830       0x10 build/mm_s.o
+                0x0000000000083830                memzero
+ .text          0x0000000000083840        0x0 build/boot_s.o
+                0x0000000000083840                _etext = .
+                0x0000000000083840                _rodata = .
 
-.iplt           0x0000000000082830        0x0
- .iplt          0x0000000000082830        0x0 build/printk_c.o
+.iplt           0x0000000000083840        0x0
+ .iplt          0x0000000000083840        0x0 build/printk_c.o
 
-.rodata         0x0000000000082830      0x1d1
+.rodata         0x0000000000083840      0x289
  *(.rodata)
- .rodata        0x0000000000082830       0x57 build/printk_c.o
- *fill*         0x0000000000082887        0x1 
- .rodata        0x0000000000082888      0x179 build/init_c.o
-                0x0000000000082a01                _erodata = .
-                0x0000000000082a01                _data = .
+ .rodata        0x0000000000083840       0x57 build/printk_c.o
+ *fill*         0x0000000000083897        0x1 
+ .rodata        0x0000000000083898      0x183 build/init_c.o
+ *fill*         0x0000000000083a1b        0x5 
+ .rodata        0x0000000000083a20       0x61 build/gic_c.o
+ *fill*         0x0000000000083a81        0x7 
+ .rodata        0x0000000000083a88       0x41 build/timer_c.o
+                0x0000000000083ac9                _erodata = .
+                0x0000000000083ac9                _data = .
 
-.eh_frame       0x0000000000082a08      0x1c0
- .eh_frame      0x0000000000082a08       0xb0 build/printk_c.o
- .eh_frame      0x0000000000082ab8       0x58 build/init_c.o
-                                         0x70 (size before relaxing)
- .eh_frame      0x0000000000082b10       0x30 build/string_c.o
+.eh_frame       0x0000000000083ad0      0x3e4
+ .eh_frame      0x0000000000083ad0       0xb0 build/printk_c.o
+ .eh_frame      0x0000000000083b80       0x70 build/init_c.o
+                                         0x80 (size before relaxing)
+ .eh_frame      0x0000000000083bf0       0x20 build/irq_c.o
+                                         0x38 (size before relaxing)
+ .eh_frame      0x0000000000083c10       0x30 build/string_c.o
                                          0x48 (size before relaxing)
- .eh_frame      0x0000000000082b40       0x88 build/pl_uart_c.o
+ .eh_frame      0x0000000000083c40       0x88 build/pl_uart_c.o
                                          0xa0 (size before relaxing)
+ .eh_frame      0x0000000000083cc8      0x140 build/gic_c.o
+                                        0x158 (size before relaxing)
+ .eh_frame      0x0000000000083e08       0xac build/timer_c.o
+                                         0xc0 (size before relaxing)
 
-.rela.dyn       0x0000000000082bc8        0x0
- .rela.iplt     0x0000000000082bc8        0x0 build/printk_c.o
- .rela.got      0x0000000000082bc8        0x0 build/printk_c.o
+.rela.dyn       0x0000000000083eb8        0x0
+ .rela.iplt     0x0000000000083eb8        0x0 build/printk_c.o
+ .rela.got      0x0000000000083eb8        0x0 build/printk_c.o
  .rela.text.boot
-                0x0000000000082bc8        0x0 build/printk_c.o
+                0x0000000000083eb8        0x0 build/printk_c.o
 
-.data           0x0000000000082bc8        0x0
+.data           0x0000000000083eb4        0x8
  *(.data)
- .data          0x0000000000082bc8        0x0 build/printk_c.o
- .data          0x0000000000082bc8        0x0 build/init_c.o
- .data          0x0000000000082bc8        0x0 build/string_c.o
- .data          0x0000000000082bc8        0x0 build/pl_uart_c.o
- .data          0x0000000000082bc8        0x0 build/entry_s.o
- .data          0x0000000000082bc8        0x0 build/mm_s.o
- .data          0x0000000000082bc8        0x0 build/boot_s.o
-                0x0000000000082bc8                _edata = .
+ .data          0x0000000000083eb4        0x0 build/printk_c.o
+ .data          0x0000000000083eb4        0x0 build/init_c.o
+ .data          0x0000000000083eb4        0x0 build/irq_c.o
+ .data          0x0000000000083eb4        0x0 build/string_c.o
+ .data          0x0000000000083eb4        0x0 build/pl_uart_c.o
+ .data          0x0000000000083eb4        0x0 build/gic_c.o
+ .data          0x0000000000083eb4        0x8 build/timer_c.o
+ .data          0x0000000000083ebc        0x0 build/entry_s.o
+ .data          0x0000000000083ebc        0x0 build/mm_s.o
+ .data          0x0000000000083ebc        0x0 build/boot_s.o
+                0x0000000000083ebc                _edata = .
 
 .data.rel.local
-                0x0000000000082bc8        0x8
+                0x0000000000083ec0        0x8
  .data.rel.local
-                0x0000000000082bc8        0x8 build/printk_c.o
+                0x0000000000083ec0        0x8 build/printk_c.o
 
-.igot.plt       0x0000000000082bd0        0x0
- .igot.plt      0x0000000000082bd0        0x0 build/printk_c.o
+.igot.plt       0x0000000000083ec8        0x0
+ .igot.plt      0x0000000000083ec8        0x0 build/printk_c.o
 
-.got            0x0000000000082bd0       0x58
- .got           0x0000000000082bd0       0x58 build/printk_c.o
-                0x0000000000082bd0                _GLOBAL_OFFSET_TABLE_
+.got            0x0000000000083ec8       0x58
+ .got           0x0000000000083ec8       0x58 build/printk_c.o
+                0x0000000000083ec8                _GLOBAL_OFFSET_TABLE_
 
-.got.plt        0x0000000000082c28       0x18
- .got.plt       0x0000000000082c28       0x18 build/printk_c.o
+.got.plt        0x0000000000083f20       0x18
+ .got.plt       0x0000000000083f20       0x18 build/printk_c.o
 
 .data.rel.ro.local
-                0x0000000000082c40       0x20
+                0x0000000000083f38       0x20
  .data.rel.ro.local
-                0x0000000000082c40       0x20 build/init_c.o
-                0x0000000000082c60                . = ALIGN (0x8)
-                0x0000000000082c60                _bss = .
+                0x0000000000083f38       0x20 build/init_c.o
+                0x0000000000083f58                . = ALIGN (0x8)
+                0x0000000000083f58                _bss = .
 
-.bss            0x0000000000082c60    0x20410
+.bss            0x0000000000083f58    0x2043c
  *(.bss*)
- .bss           0x0000000000082c60    0x20410 build/printk_c.o
- .bss           0x00000000000a3070        0x0 build/init_c.o
- .bss           0x00000000000a3070        0x0 build/string_c.o
- .bss           0x00000000000a3070        0x0 build/pl_uart_c.o
- .bss           0x00000000000a3070        0x0 build/entry_s.o
- .bss           0x00000000000a3070        0x0 build/mm_s.o
- .bss           0x00000000000a3070        0x0 build/boot_s.o
-                0x00000000000a3070                _ebss = .
-                0x00000000000a4000                . = ALIGN (0x1000)
-                0x00000000000a4000                init_pg_dir = .
-                0x00000000000a5000                . = (. + 0x1000)
+ .bss           0x0000000000083f58    0x20410 build/printk_c.o
+ .bss           0x00000000000a4368        0x0 build/init_c.o
+ .bss           0x00000000000a4368        0x0 build/irq_c.o
+ .bss           0x00000000000a4368        0x0 build/string_c.o
+ .bss           0x00000000000a4368        0x0 build/pl_uart_c.o
+ .bss           0x00000000000a4368       0x28 build/gic_c.o
+ .bss           0x00000000000a4390        0x4 build/timer_c.o
+ .bss           0x00000000000a4394        0x0 build/entry_s.o
+ .bss           0x00000000000a4394        0x0 build/mm_s.o
+ .bss           0x00000000000a4394        0x0 build/boot_s.o
+                0x00000000000a4394                _ebss = .
+                0x00000000000a5000                . = ALIGN (0x1000)
+                0x00000000000a5000                init_pg_dir = .
+                0x00000000000a6000                . = (. + 0x1000)
 LOAD build/printk_c.o
 LOAD build/init_c.o
+LOAD build/irq_c.o
 LOAD build/string_c.o
 LOAD build/pl_uart_c.o
+LOAD build/gic_c.o
+LOAD build/timer_c.o
 LOAD build/entry_s.o
 LOAD build/mm_s.o
 LOAD build/boot_s.o
 OUTPUT(build/aarch_test.elf elf64-littleaarch64)
 LOAD linker stubs
 
-.debug_info     0x0000000000000000      0xaf0
+.debug_info     0x0000000000000000     0x13ae
  .debug_info    0x0000000000000000      0x483 build/printk_c.o
- .debug_info    0x0000000000000483      0x1b8 build/init_c.o
- .debug_info    0x000000000000063b      0x108 build/string_c.o
- .debug_info    0x0000000000000743      0x323 build/pl_uart_c.o
- .debug_info    0x0000000000000a66       0x2e build/entry_s.o
- .debug_info    0x0000000000000a94       0x2e build/mm_s.o
- .debug_info    0x0000000000000ac2       0x2e build/boot_s.o
+ .debug_info    0x0000000000000483      0x21c build/init_c.o
+ .debug_info    0x000000000000069f       0x56 build/irq_c.o
+ .debug_info    0x00000000000006f5      0x108 build/string_c.o
+ .debug_info    0x00000000000007fd      0x323 build/pl_uart_c.o
+ .debug_info    0x0000000000000b20      0x631 build/gic_c.o
+ .debug_info    0x0000000000001151      0x1d3 build/timer_c.o
+ .debug_info    0x0000000000001324       0x2e build/entry_s.o
+ .debug_info    0x0000000000001352       0x2e build/mm_s.o
+ .debug_info    0x0000000000001380       0x2e build/boot_s.o
 
-.debug_abbrev   0x0000000000000000      0x479
+.debug_abbrev   0x0000000000000000      0x757
  .debug_abbrev  0x0000000000000000      0x1a5 build/printk_c.o
- .debug_abbrev  0x00000000000001a5       0xf7 build/init_c.o
- .debug_abbrev  0x000000000000029c       0xb7 build/string_c.o
- .debug_abbrev  0x0000000000000353       0xea build/pl_uart_c.o
- .debug_abbrev  0x000000000000043d       0x14 build/entry_s.o
- .debug_abbrev  0x0000000000000451       0x14 build/mm_s.o
- .debug_abbrev  0x0000000000000465       0x14 build/boot_s.o
+ .debug_abbrev  0x00000000000001a5      0x15b build/init_c.o
+ .debug_abbrev  0x0000000000000300       0x39 build/irq_c.o
+ .debug_abbrev  0x0000000000000339       0xb7 build/string_c.o
+ .debug_abbrev  0x00000000000003f0       0xea build/pl_uart_c.o
+ .debug_abbrev  0x00000000000004da      0x164 build/gic_c.o
+ .debug_abbrev  0x000000000000063e       0xdd build/timer_c.o
+ .debug_abbrev  0x000000000000071b       0x14 build/entry_s.o
+ .debug_abbrev  0x000000000000072f       0x14 build/mm_s.o
+ .debug_abbrev  0x0000000000000743       0x14 build/boot_s.o
 
-.debug_aranges  0x0000000000000000      0x150
+.debug_aranges  0x0000000000000000      0x1e0
  .debug_aranges
                 0x0000000000000000       0x30 build/printk_c.o
  .debug_aranges
                 0x0000000000000030       0x30 build/init_c.o
  .debug_aranges
-                0x0000000000000060       0x30 build/string_c.o
+                0x0000000000000060       0x30 build/irq_c.o
  .debug_aranges
-                0x0000000000000090       0x30 build/pl_uart_c.o
+                0x0000000000000090       0x30 build/string_c.o
  .debug_aranges
-                0x00000000000000c0       0x30 build/entry_s.o
+                0x00000000000000c0       0x30 build/pl_uart_c.o
  .debug_aranges
-                0x00000000000000f0       0x30 build/mm_s.o
+                0x00000000000000f0       0x30 build/gic_c.o
  .debug_aranges
-                0x0000000000000120       0x30 build/boot_s.o
+                0x0000000000000120       0x30 build/timer_c.o
+ .debug_aranges
+                0x0000000000000150       0x30 build/entry_s.o
+ .debug_aranges
+                0x0000000000000180       0x30 build/mm_s.o
+ .debug_aranges
+                0x00000000000001b0       0x30 build/boot_s.o
 
-.debug_line     0x0000000000000000      0x7e0
+.debug_line     0x0000000000000000      0xabe
  .debug_line    0x0000000000000000      0x4e5 build/printk_c.o
- .debug_line    0x00000000000004e5       0x8a build/init_c.o
- .debug_line    0x000000000000056f       0x99 build/string_c.o
- .debug_line    0x0000000000000608       0xe0 build/pl_uart_c.o
- .debug_line    0x00000000000006e8       0x68 build/entry_s.o
- .debug_line    0x0000000000000750       0x3d build/mm_s.o
- .debug_line    0x000000000000078d       0x53 build/boot_s.o
+ .debug_line    0x00000000000004e5       0xaa build/init_c.o
+ .debug_line    0x000000000000058f       0x43 build/irq_c.o
+ .debug_line    0x00000000000005d2       0x99 build/string_c.o
+ .debug_line    0x000000000000066b       0xe0 build/pl_uart_c.o
+ .debug_line    0x000000000000074b      0x1be build/gic_c.o
+ .debug_line    0x0000000000000909       0x87 build/timer_c.o
+ .debug_line    0x0000000000000990       0x9e build/entry_s.o
+ .debug_line    0x0000000000000a2e       0x3d build/mm_s.o
+ .debug_line    0x0000000000000a6b       0x53 build/boot_s.o
 
-.debug_str      0x0000000000000000      0x361
- .debug_str     0x0000000000000000      0x21c build/printk_c.o
-                                        0x257 (size before relaxing)
- .debug_str     0x000000000000021c       0x9e build/init_c.o
-                                        0x193 (size before relaxing)
- .debug_str     0x00000000000002ba       0x2d build/string_c.o
+.debug_str      0x0000000000000000      0x523
+ .debug_str     0x0000000000000000      0x217 build/printk_c.o
+                                        0x252 (size before relaxing)
+ .debug_str     0x0000000000000217       0xb0 build/init_c.o
+                                        0x1b0 (size before relaxing)
+ .debug_str     0x00000000000002c7       0x15 build/irq_c.o
+                                        0x100 (size before relaxing)
+ .debug_str     0x00000000000002dc       0x2d build/string_c.o
                                         0x10b (size before relaxing)
- .debug_str     0x00000000000002e7       0x4e build/pl_uart_c.o
+ .debug_str     0x0000000000000309       0x4e build/pl_uart_c.o
                                         0x12c (size before relaxing)
- .debug_str     0x0000000000000335       0x18 build/entry_s.o
+ .debug_str     0x0000000000000357      0x117 build/gic_c.o
+                                        0x238 (size before relaxing)
+ .debug_str     0x000000000000046e       0x89 build/timer_c.o
+                                        0x174 (size before relaxing)
+ .debug_str     0x00000000000004f7       0x18 build/entry_s.o
                                          0x30 (size before relaxing)
- .debug_str     0x000000000000034d        0x9 build/mm_s.o
+ .debug_str     0x000000000000050f        0x9 build/mm_s.o
                                          0x2d (size before relaxing)
- .debug_str     0x0000000000000356        0xb build/boot_s.o
+ .debug_str     0x0000000000000518        0xb build/boot_s.o
                                          0x2f (size before relaxing)
 
 .comment        0x0000000000000000       0x2b
  .comment       0x0000000000000000       0x2b build/printk_c.o
                                          0x2c (size before relaxing)
  .comment       0x000000000000002b       0x2c build/init_c.o
+ .comment       0x000000000000002b       0x2c build/irq_c.o
  .comment       0x000000000000002b       0x2c build/string_c.o
  .comment       0x000000000000002b       0x2c build/pl_uart_c.o
+ .comment       0x000000000000002b       0x2c build/gic_c.o
+ .comment       0x000000000000002b       0x2c build/timer_c.o
 
 .note.GNU-stack
                 0x0000000000000000        0x0
@@ -199,6 +255,12 @@ LOAD linker stubs
  .note.GNU-stack
                 0x0000000000000000        0x0 build/init_c.o
  .note.GNU-stack
+                0x0000000000000000        0x0 build/irq_c.o
+ .note.GNU-stack
                 0x0000000000000000        0x0 build/string_c.o
  .note.GNU-stack
                 0x0000000000000000        0x0 build/pl_uart_c.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 build/gic_c.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 build/timer_c.o

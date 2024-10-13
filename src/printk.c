@@ -335,7 +335,7 @@ repeat:
 	return pos - string;
 }
 
-void init_printk_done(void)
+void printk_init(void)
 {
 	unsigned long i;
 

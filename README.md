@@ -2,6 +2,26 @@
 
 > 有些事情，只有自己去做了，才会去感知一些东西
 
+## address
+
+PBASE：外设地址
+
+```c
+#define PBASE 0xFE000000
+```
+
+GIC_BASE_ADDR：GIC地址
+
+```c
+#define GIC_BASE_ADDR (0xFF840000)
+```
+
+内核加载地址
+
+```shell
+	. = 0x80000, 
+```
+
 ## gdb cao
 
 查看当前线程数
