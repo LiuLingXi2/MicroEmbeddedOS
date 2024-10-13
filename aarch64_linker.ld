@@ -16,6 +16,9 @@ SECTIONS
 
 	_data = .;
 	.data : { *(.data) }
+	. = ALIGN(4096);
+	idmap_pg_dir = .;
+	. += 4096;
 	_edata = .;
 
 	. = ALIGN(0x8);

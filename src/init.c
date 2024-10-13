@@ -4,6 +4,8 @@
 #include "gic.h"
 #include "irq.h"
 #include "timer.h"
+#include "io.h"
+#include "mm.h"
 
 extern char _text_boot[], _etext_boot[];
 extern char _text[], _etext[];
@@ -13,7 +15,7 @@ extern char _bss[], _ebss[];
 
 static void pmem_layout(void)
 {
-	printk("BenOS image layout:\n");
+	printk("Image layout:\n");
 	printk("  .text.boot: 0x%08lx - 0x%08lx (%6ld B)\n",
 			(unsigned long)_text_boot, (unsigned long)_etext_boot,
 			(unsigned long)(_etext_boot - _text_boot));
@@ -31,18 +33,6 @@ static void pmem_layout(void)
 			(unsigned long)(_ebss - _bss));
 }
 
-#define read_sysreg(reg) ({ \
-		unsigned long _val; \
-		asm volatile("mrs %0," #reg \
-		: "=r"(_val)); \
-		_val; \
-})
-
-#define write_sysreg(val, reg) ({ \
-		unsigned long _val = (unsigned long)val; \
-		asm volatile("msr " #reg ", %x0" \
-		:: "rZ"(_val)); \
-})
 
 static const char * const bad_mode_handler[] = {
 	"Sync Abort",
@@ -63,16 +53,19 @@ void kernel_main(void)
 	uart_init();
     printk_init();
 
-	uart_send_string("Welcome MicroEmbeddedOS!\r\n");
+	printk(GREEN"Welcome MicroEmbeddedOS!\n" NONE);
 
 	pmem_layout();
 
+	setup_arch();
+
 	gic_init(0, GIC_DISPATCH, GIC_CPU);
 
-	local_timer_init();
-	system_timer_init();
+	// local_timer_init();
 
-	raw_local_irq_enable();
+	// system_timer_init();
+
+	// raw_local_irq_enable();
 
 	while (1) {
 		uart_send(uart_recv());

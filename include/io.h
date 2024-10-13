@@ -32,4 +32,17 @@ static inline void delay(unsigned int n)
 		;
 }
 
+#define read_sysreg(reg) ({ \
+		unsigned long _val; \
+		asm volatile("mrs %0," #reg \
+		: "=r"(_val)); \
+		_val; \
+})
+
+#define write_sysreg(val, reg) ({ \
+		unsigned long _val = (unsigned long)val; \
+		asm volatile("msr " #reg ", %x0" \
+		:: "rZ"(_val)); \
+})
+
 #endif

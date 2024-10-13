@@ -180,8 +180,7 @@ void gic_init(int chip, unsigned long dist_base, unsigned long cpu_base)
 
 	gic->gic_irqs = gic_irqs;
 
-	printk("%s: cpu_base:0x%x, dist_base:0x%x, gic_irqs:%d\n",
-			__func__, cpu_base, dist_base, gic->gic_irqs);
+	printk("gic_init [ cpu_base:0x%x, dist_base:0x%x, gic_irqs:%d ]\n", cpu_base, dist_base, gic->gic_irqs);
 
 	gic_dist_init(gic); // dist init
 	gic_cpu_init(gic); // cpu init

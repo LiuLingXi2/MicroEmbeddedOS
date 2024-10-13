@@ -7,4 +7,7 @@
 #define PBASE 0xFE000000
 #endif
 
+#define DEVICE_SIZE 0x2000000
+#define ARCH_PHYS_OFFSET 0
+
 #endif  // !__P_BASE_H__

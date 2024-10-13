@@ -1,5 +1,5 @@
 #include "test_define.h"
-#include "reg_offset.h"
+#include "asm/sysreg.h"
 #include "mm.h"
 
     .section ".text.boot"

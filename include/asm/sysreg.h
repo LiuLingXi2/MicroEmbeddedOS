@@ -9,6 +9,9 @@
 
 // HCR
 #define HCR_RW (1 << 31)
+#define HCR_HOST_NVHE_FLAGS (HCR_RW)
+
+#define SCTLR_ELx_M	(1<<0)
 
 // SCTLR
 #define SCTLR_EE_LITTLE_ENDIAN (0 << 25)
