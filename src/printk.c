@@ -350,11 +350,9 @@ void init_printk_done(void)
 
 int printk(const char *fmt, ...)
 {
-    uart_send_string("Welcome BenOS!\r\n");
 	va_list arg;
 	int len;
 	int i;
-    uart_send_string("-2\n");
 	va_start(arg, fmt);
 	len = myprintf(print_buf, sizeof(print_buf), fmt, arg);
 	va_end(arg);
@@ -364,7 +362,6 @@ int printk(const char *fmt, ...)
 		memcpy(g_record, print_buf, len);
 		g_record = log_buf + len;
 		g_record_len += len;
-        uart_send_string("-2\n");
 
 		return 0;
 	}
@@ -372,7 +369,6 @@ int printk(const char *fmt, ...)
 	for (i = 0; i < len; i++) {
 		putchar(print_buf[i]);
 		if (i > sizeof(print_buf)) {
-            uart_send_string("-1\n");
 			break;
         }
 	}

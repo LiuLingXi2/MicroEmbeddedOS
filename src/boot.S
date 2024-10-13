@@ -19,8 +19,8 @@ e11_entry:
 	msr     vbar_el1, x5
 	isb
 
-	adr	x0, bss_begin
-	adr	x1, bss_end
+	adr	x0, _bss
+	adr	x1, _ebss
 	sub	x1, x1, x0
 	bl 	memzero // bss mem zero
     

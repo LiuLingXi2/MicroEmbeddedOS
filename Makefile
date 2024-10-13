@@ -10,10 +10,12 @@ COPS += -DCONFIG_BOARD_PI4B
 QEMU_FLAGS  += -machine raspi4b1g
 endif
 
-COPS += -g -Wall -nostdlib -Iinclude
+COPS += -g -Wall -nostdlib -Iinclude -mgeneral-regs-only
 ASMOPS = -g -Iinclude 
 
 COPS += -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar
+
+# COPS +=  -fno-builtin-strcpy -fno-builtin-strcat -fno-builtin-strcmp -fno-builtin-strncpy -fno-builtin-strncat -fno-builtin-strncmp -fno-builtin-strchr -fno-builtin-strstr -fno-builtin-strtok  -fno-builtin-memset  -fno-builtin-memmove 
 
 BUILD_DIR = build
 SRC_DIR = src
