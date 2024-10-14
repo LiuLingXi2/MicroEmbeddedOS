@@ -2,7 +2,7 @@
 
 > 有些事情，只有自己去做了，才会去感知一些东西
 
-## address
+## 内核信息
 
 PBASE：外设地址
 
@@ -22,45 +22,54 @@ GIC_BASE_ADDR：GIC地址
 	. = 0x80000, 
 ```
 
-## gdb cao
-
-查看当前线程数
+## 运行内核
 
 ```shell
-(gdb) info threads
-  Id   Target Id                    Frame
-* 1    Thread 1.1 (CPU#0 [running]) _start () at src/boot.S:8
-  2    Thread 1.2 (CPU#1 [running]) 0x000000000000030c in ?? ()
-  3    Thread 1.3 (CPU#2 [running]) 0x000000000000030c in ?? ()
-  4    Thread 1.4 (CPU#3 [running]) 0x000000000000030c in ?? ()
+make clean
+make
+make run
 ```
 
-设置只在线程`1.1`执行
+debug状态
 
 ```shell
-(gdb) thread 1.1
-[Switching to thread 1 (Thread 1.1)]
-#0  _start () at src/boot.S:8
+make debug
 ```
-
-查看线程栈信息
 
 ```shell
-(gdb) thread apply 1 bt
+bash gdb.sh
 ```
 
-## register infomation
+运行效果
 
-**mpidr_el**
+```shell
+qemu-system-aarch64 -machine raspi4b1g -nographic -kernel build/aarch_test.bin
+Welcome MicroEmbeddedOS v0.1 (2024 10-15)
 
-`raspi 4b`四个`core，每一个`core`都有自己的`mpidr_el1`(ro)，
+ /\_/\      /\_/\      /\_/\
+( o.o )    ( o.o )    ( o.o )
+ > ^ <      > ^ <      > ^ <
 
-0-7位标识`core id`
+Image layout:
+  .text.boot: 0x00080000 - 0x00080080 (   128 B)
+       .text: 0x00080080 - 0x00084858 ( 18392 B)
+     .rodata: 0x00084858 - 0x00084c70 (  1048 B)
+       .data: 0x00084c70 - 0x00087000 (  9104 B)
+        .bss: 0x00087000 - 0x000e7444 (394308 B)
 
-**esr_el1**
+microembeeded os loading address: 0x00080000
+memory: 4294967292KB available, 0 free pages
+identify mapping done
+enable mmu done
+test_access_map_address: [ access 0x1ffff000 done ]
+Bad mode for Sync Abort handler detected, far:0x20001000 esr:0x96000046
+gic_init [ cpu_base:0xff842000, dist_base:0xff841000, gic_irqs:160 ]
+```
 
-存放访问失效相关的寄存器
+当前进度和计划
 
-**far_el1**
-
-获取异常发生虚拟地址
+- 日志系统
+- 目录规整
+- 进程管理
+- shell实现
+- 驱动实现

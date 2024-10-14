@@ -22,7 +22,7 @@ void mem_init(unsigned long start_mem, unsigned long end_mem)
 		start_mem += PAGE_SIZE;
 	}
 
-	printk("Memory: %uKB available, %u free pages\n", free/1024, nr_free_pages);
+	printk("memory: %uKB available, %u free pages\n", free/1024, nr_free_pages);
 }
 
 unsigned long alloc_page(void)

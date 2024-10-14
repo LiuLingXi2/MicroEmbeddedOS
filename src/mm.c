@@ -173,7 +173,7 @@ static void create_identical_mapping(void)
 			end - start, PAGE_KERNEL,
 			early_pgtable_alloc,
 			0);
-	printk(GREEN"identify mapping done\n" NONE);
+	printk("identify mapping done\n");
 }
 
 static void paging_init(void)
@@ -241,5 +241,5 @@ void setup_arch(void)
 	paging_init();
 	enable_mmu();
 
-	printk(GREEN"enable mmu done\n" NONE);
+	printk("enable mmu done\n");
 }
