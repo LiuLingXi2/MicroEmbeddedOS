@@ -1,0 +1,358 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD ./kernel/obj/printk_c.o
+LOAD ./kernel/obj/string_c.o
+LOAD ./kernel/obj/init_c.o
+LOAD ./boot/obj/boot_s.o
+LOAD ./boot/obj/entry_s.o
+LOAD ./driver/obj/pl_uart_c.o
+LOAD ./driver/obj/gic_c.o
+LOAD ./driver/obj/timer_c.o
+LOAD ./driver/obj/irq_c.o
+LOAD ./mm/obj/mm_s.o
+LOAD ./mm/obj/memset_c.o
+LOAD ./mm/obj/memset_asm_s.o
+LOAD ./mm/obj/mm_c.o
+LOAD ./mm/obj/alloc_c.o
+LOAD ./test/obj/test_c.o
+                0x0000000000080000                . = 0x80000
+                0x0000000000080000                _text_boot = .
+
+.text.boot      0x0000000000080000       0x80
+ *(.text.boot)
+ .text.boot     0x0000000000080000       0x80 ./boot/obj/boot_s.o
+                0x0000000000080000                _start
+                0x0000000000080080                _etext_boot = .
+                0x0000000000080080                _text = .
+
+.text           0x0000000000080800     0x3f08
+ *(.text)
+ .text          0x0000000000080800     0x11a0 ./kernel/obj/printk_c.o
+                0x0000000000080c58                myprintf
+                0x00000000000817c0                printk_init
+                0x0000000000081848                printk
+ .text          0x00000000000819a0       0xa8 ./kernel/obj/string_c.o
+                0x00000000000819a0                strlen
+                0x00000000000819e4                memcpy
+ .text          0x0000000000081a48      0x218 ./kernel/obj/init_c.o
+                0x0000000000081b80                bad_mode
+                0x0000000000081bd0                kernel_main
+ .text          0x0000000000081c60        0x0 ./boot/obj/boot_s.o
+ *fill*         0x0000000000081c60      0x3a0 
+ .text          0x0000000000082000     0x1030 ./boot/obj/entry_s.o
+                0x0000000000082800                vectors
+                0x0000000000083006                trigger_alignment
+ .text          0x0000000000083030      0x260 ./driver/obj/pl_uart_c.o
+                0x0000000000083030                uart_send
+                0x0000000000083080                uart_recv
+                0x00000000000830c8                uart_send_string
+                0x0000000000083124                uart_init
+                0x000000000008325c                putchar
+ .text          0x0000000000083290      0x5f4 ./driver/obj/gic_c.o
+                0x0000000000083350                gicv2_mask_irq
+                0x0000000000083374                gicv2_unmask_irq
+                0x000000000008361c                gic_cpu_init
+                0x00000000000836f4                gic_handle_irq
+                0x00000000000837a8                gic_init
+ .text          0x0000000000083884      0x190 ./driver/obj/timer_c.o
+                0x00000000000838b0                local_timer_init
+                0x00000000000838e0                system_timer_init
+                0x0000000000083964                handle_timer_irq
+                0x0000000000083994                handle_stimer_irq
+ .text          0x0000000000083a14       0x18 ./driver/obj/irq_c.o
+                0x0000000000083a14                irq_handle
+ .text          0x0000000000083a2c       0x10 ./mm/obj/mm_s.o
+                0x0000000000083a2c                memzero
+ .text          0x0000000000083a3c      0x230 ./mm/obj/memset_c.o
+                0x0000000000083c40                memset
+ .text          0x0000000000083c6c       0x18 ./mm/obj/memset_asm_s.o
+                0x0000000000083c6c                __memset_16bytes
+ .text          0x0000000000083c84      0x8bc ./mm/obj/mm_c.o
+                0x0000000000083e74                pmd_set_section
+                0x00000000000844fc                setup_arch
+ .text          0x0000000000084540      0x144 ./mm/obj/alloc_c.o
+                0x0000000000084540                mem_init
+                0x00000000000845e4                alloc_page
+                0x0000000000084658                free_page
+ .text          0x0000000000084684       0x84 ./test/obj/test_c.o
+                0x0000000000084684                test_access_map_address
+                0x00000000000846c4                test_access_unmap_address
+                0x0000000000084708                _etext = .
+                0x0000000000084708                _rodata = .
+
+.iplt           0x0000000000084708        0x0
+ .iplt          0x0000000000084708        0x0 ./kernel/obj/printk_c.o
+
+.rodata         0x0000000000084708      0x412
+ *(.rodata)
+ .rodata        0x0000000000084708       0x57 ./kernel/obj/printk_c.o
+ *fill*         0x000000000008475f        0x1 
+ .rodata        0x0000000000084760      0x25b ./kernel/obj/init_c.o
+ *fill*         0x00000000000849bb        0x5 
+ .rodata        0x00000000000849c0       0x61 ./driver/obj/gic_c.o
+ *fill*         0x0000000000084a21        0x7 
+ .rodata        0x0000000000084a28       0x40 ./driver/obj/timer_c.o
+ .rodata        0x0000000000084a68       0x29 ./mm/obj/mm_c.o
+ *fill*         0x0000000000084a91        0x7 
+ .rodata        0x0000000000084a98       0x27 ./mm/obj/alloc_c.o
+ *fill*         0x0000000000084abf        0x1 
+ .rodata        0x0000000000084ac0       0x5a ./test/obj/test_c.o
+                0x0000000000084b1a                _erodata = .
+                0x0000000000084b1a                _data = .
+
+.eh_frame       0x0000000000084b20      0x6e0
+ .eh_frame      0x0000000000084b20       0xb0 ./kernel/obj/printk_c.o
+ .eh_frame      0x0000000000084bd0       0x30 ./kernel/obj/string_c.o
+                                         0x48 (size before relaxing)
+ .eh_frame      0x0000000000084c00       0x58 ./kernel/obj/init_c.o
+                                         0x70 (size before relaxing)
+ .eh_frame      0x0000000000084c58       0x88 ./driver/obj/pl_uart_c.o
+                                         0xa0 (size before relaxing)
+ .eh_frame      0x0000000000084ce0      0x140 ./driver/obj/gic_c.o
+                                        0x158 (size before relaxing)
+ .eh_frame      0x0000000000084e20       0xb0 ./driver/obj/timer_c.o
+                                         0xc0 (size before relaxing)
+ .eh_frame      0x0000000000084ed0       0x20 ./driver/obj/irq_c.o
+                                         0x38 (size before relaxing)
+ .eh_frame      0x0000000000084ef0       0x70 ./mm/obj/memset_c.o
+                                         0x88 (size before relaxing)
+ .eh_frame      0x0000000000084f60      0x210 ./mm/obj/mm_c.o
+                                        0x228 (size before relaxing)
+ .eh_frame      0x0000000000085170       0x50 ./mm/obj/alloc_c.o
+                                         0x68 (size before relaxing)
+ .eh_frame      0x00000000000851c0       0x40 ./test/obj/test_c.o
+                                         0x58 (size before relaxing)
+
+.rela.dyn       0x0000000000085200        0x0
+ .rela.iplt     0x0000000000085200        0x0 ./kernel/obj/printk_c.o
+ .rela.got      0x0000000000085200        0x0 ./kernel/obj/printk_c.o
+ .rela.text.boot
+                0x0000000000085200        0x0 ./kernel/obj/printk_c.o
+
+.data           0x0000000000085200        0x8
+ *(.data)
+ .data          0x0000000000085200        0x0 ./kernel/obj/printk_c.o
+ .data          0x0000000000085200        0x0 ./kernel/obj/string_c.o
+ .data          0x0000000000085200        0x0 ./kernel/obj/init_c.o
+ .data          0x0000000000085200        0x0 ./boot/obj/boot_s.o
+ .data          0x0000000000085200        0x0 ./boot/obj/entry_s.o
+ .data          0x0000000000085200        0x0 ./driver/obj/pl_uart_c.o
+ .data          0x0000000000085200        0x0 ./driver/obj/gic_c.o
+ .data          0x0000000000085200        0x8 ./driver/obj/timer_c.o
+ .data          0x0000000000085208        0x0 ./driver/obj/irq_c.o
+ .data          0x0000000000085208        0x0 ./mm/obj/mm_s.o
+ .data          0x0000000000085208        0x0 ./mm/obj/memset_c.o
+ .data          0x0000000000085208        0x0 ./mm/obj/memset_asm_s.o
+ .data          0x0000000000085208        0x0 ./mm/obj/mm_c.o
+ .data          0x0000000000085208        0x0 ./mm/obj/alloc_c.o
+ .data          0x0000000000085208        0x0 ./test/obj/test_c.o
+
+.data.rel.local
+                0x0000000000085208        0x8
+ .data.rel.local
+                0x0000000000085208        0x8 ./kernel/obj/printk_c.o
+
+.igot.plt       0x0000000000085210        0x0
+ .igot.plt      0x0000000000085210        0x0 ./kernel/obj/printk_c.o
+
+.got            0x0000000000085210       0x60
+ .got           0x0000000000085210       0x60 ./kernel/obj/printk_c.o
+                0x0000000000085210                _GLOBAL_OFFSET_TABLE_
+
+.got.plt        0x0000000000085270       0x18
+ .got.plt       0x0000000000085270       0x18 ./kernel/obj/printk_c.o
+
+.data.rel.ro.local
+                0x0000000000085288       0x20
+ .data.rel.ro.local
+                0x0000000000085288       0x20 ./kernel/obj/init_c.o
+                0x0000000000086000                . = ALIGN (0x1000)
+                0x0000000000086000                idmap_pg_dir = .
+                0x0000000000087000                . = (. + 0x1000)
+                0x0000000000087000                _edata = .
+                0x0000000000087000                . = ALIGN (0x8)
+                0x0000000000087000                _bss = .
+
+.bss            0x0000000000087000    0x60448
+ *(.bss*)
+ .bss           0x0000000000087000    0x20410 ./kernel/obj/printk_c.o
+ .bss           0x00000000000a7410        0x0 ./kernel/obj/string_c.o
+ .bss           0x00000000000a7410        0x0 ./kernel/obj/init_c.o
+ .bss           0x00000000000a7410        0x0 ./boot/obj/boot_s.o
+ .bss           0x00000000000a7410        0x0 ./boot/obj/entry_s.o
+ .bss           0x00000000000a7410        0x0 ./driver/obj/pl_uart_c.o
+ .bss           0x00000000000a7410       0x28 ./driver/obj/gic_c.o
+ .bss           0x00000000000a7438        0x4 ./driver/obj/timer_c.o
+ .bss           0x00000000000a743c        0x0 ./driver/obj/irq_c.o
+ .bss           0x00000000000a743c        0x0 ./mm/obj/mm_s.o
+ .bss           0x00000000000a743c        0x0 ./mm/obj/memset_c.o
+ .bss           0x00000000000a743c        0x0 ./mm/obj/memset_asm_s.o
+ .bss           0x00000000000a743c        0x0 ./mm/obj/mm_c.o
+ *fill*         0x00000000000a743c        0x4 
+ .bss           0x00000000000a7440    0x40008 ./mm/obj/alloc_c.o
+ .bss           0x00000000000e7448        0x0 ./test/obj/test_c.o
+                0x00000000000e7448                _ebss = .
+                0x00000000000e8000                . = ALIGN (0x1000)
+                0x00000000000e8000                init_pg_dir = .
+                0x00000000000e9000                . = (. + 0x1000)
+OUTPUT(build/ma_a.elf elf64-littleaarch64)
+LOAD linker stubs
+
+.debug_info     0x0000000000000000     0x2190
+ .debug_info    0x0000000000000000      0x483 ./kernel/obj/printk_c.o
+ .debug_info    0x0000000000000483      0x108 ./kernel/obj/string_c.o
+ .debug_info    0x000000000000058b      0x202 ./kernel/obj/init_c.o
+ .debug_info    0x000000000000078d       0x2e ./boot/obj/boot_s.o
+ .debug_info    0x00000000000007bb       0x2e ./boot/obj/entry_s.o
+ .debug_info    0x00000000000007e9      0x323 ./driver/obj/pl_uart_c.o
+ .debug_info    0x0000000000000b0c      0x5fd ./driver/obj/gic_c.o
+ .debug_info    0x0000000000001109      0x1d3 ./driver/obj/timer_c.o
+ .debug_info    0x00000000000012dc       0x56 ./driver/obj/irq_c.o
+ .debug_info    0x0000000000001332       0x2e ./mm/obj/mm_s.o
+ .debug_info    0x0000000000001360      0x215 ./mm/obj/memset_c.o
+ .debug_info    0x0000000000001575       0x2e ./mm/obj/memset_asm_s.o
+ .debug_info    0x00000000000015a3      0x9cb ./mm/obj/mm_c.o
+ .debug_info    0x0000000000001f6e      0x135 ./mm/obj/alloc_c.o
+ .debug_info    0x00000000000020a3       0xed ./test/obj/test_c.o
+
+.debug_abbrev   0x0000000000000000      0xb5f
+ .debug_abbrev  0x0000000000000000      0x1a5 ./kernel/obj/printk_c.o
+ .debug_abbrev  0x00000000000001a5       0xb7 ./kernel/obj/string_c.o
+ .debug_abbrev  0x000000000000025c      0x143 ./kernel/obj/init_c.o
+ .debug_abbrev  0x000000000000039f       0x14 ./boot/obj/boot_s.o
+ .debug_abbrev  0x00000000000003b3       0x14 ./boot/obj/entry_s.o
+ .debug_abbrev  0x00000000000003c7       0xea ./driver/obj/pl_uart_c.o
+ .debug_abbrev  0x00000000000004b1      0x150 ./driver/obj/gic_c.o
+ .debug_abbrev  0x0000000000000601       0xdd ./driver/obj/timer_c.o
+ .debug_abbrev  0x00000000000006de       0x39 ./driver/obj/irq_c.o
+ .debug_abbrev  0x0000000000000717       0x14 ./mm/obj/mm_s.o
+ .debug_abbrev  0x000000000000072b       0xfb ./mm/obj/memset_c.o
+ .debug_abbrev  0x0000000000000826       0x14 ./mm/obj/memset_asm_s.o
+ .debug_abbrev  0x000000000000083a      0x1df ./mm/obj/mm_c.o
+ .debug_abbrev  0x0000000000000a19       0xd4 ./mm/obj/alloc_c.o
+ .debug_abbrev  0x0000000000000aed       0x72 ./test/obj/test_c.o
+
+.debug_aranges  0x0000000000000000      0x2d0
+ .debug_aranges
+                0x0000000000000000       0x30 ./kernel/obj/printk_c.o
+ .debug_aranges
+                0x0000000000000030       0x30 ./kernel/obj/string_c.o
+ .debug_aranges
+                0x0000000000000060       0x30 ./kernel/obj/init_c.o
+ .debug_aranges
+                0x0000000000000090       0x30 ./boot/obj/boot_s.o
+ .debug_aranges
+                0x00000000000000c0       0x30 ./boot/obj/entry_s.o
+ .debug_aranges
+                0x00000000000000f0       0x30 ./driver/obj/pl_uart_c.o
+ .debug_aranges
+                0x0000000000000120       0x30 ./driver/obj/gic_c.o
+ .debug_aranges
+                0x0000000000000150       0x30 ./driver/obj/timer_c.o
+ .debug_aranges
+                0x0000000000000180       0x30 ./driver/obj/irq_c.o
+ .debug_aranges
+                0x00000000000001b0       0x30 ./mm/obj/mm_s.o
+ .debug_aranges
+                0x00000000000001e0       0x30 ./mm/obj/memset_c.o
+ .debug_aranges
+                0x0000000000000210       0x30 ./mm/obj/memset_asm_s.o
+ .debug_aranges
+                0x0000000000000240       0x30 ./mm/obj/mm_c.o
+ .debug_aranges
+                0x0000000000000270       0x30 ./mm/obj/alloc_c.o
+ .debug_aranges
+                0x00000000000002a0       0x30 ./test/obj/test_c.o
+
+.debug_line     0x0000000000000000      0xfb1
+ .debug_line    0x0000000000000000      0x4e1 ./kernel/obj/printk_c.o
+ .debug_line    0x00000000000004e1       0x98 ./kernel/obj/string_c.o
+ .debug_line    0x0000000000000579       0xa8 ./kernel/obj/init_c.o
+ .debug_line    0x0000000000000621       0x4f ./boot/obj/boot_s.o
+ .debug_line    0x0000000000000670       0x9a ./boot/obj/entry_s.o
+ .debug_line    0x000000000000070a       0xdc ./driver/obj/pl_uart_c.o
+ .debug_line    0x00000000000007e6      0x1bd ./driver/obj/gic_c.o
+ .debug_line    0x00000000000009a3       0x83 ./driver/obj/timer_c.o
+ .debug_line    0x0000000000000a26       0x3f ./driver/obj/irq_c.o
+ .debug_line    0x0000000000000a65       0x39 ./mm/obj/mm_s.o
+ .debug_line    0x0000000000000a9e       0xff ./mm/obj/memset_c.o
+ .debug_line    0x0000000000000b9d       0x43 ./mm/obj/memset_asm_s.o
+ .debug_line    0x0000000000000be0      0x2dd ./mm/obj/mm_c.o
+ .debug_line    0x0000000000000ebd       0x95 ./mm/obj/alloc_c.o
+ .debug_line    0x0000000000000f52       0x5f ./test/obj/test_c.o
+
+.debug_str      0x0000000000000000      0x86c
+ .debug_str     0x0000000000000000      0x213 ./kernel/obj/printk_c.o
+                                        0x269 (size before relaxing)
+ .debug_str     0x0000000000000213       0x29 ./kernel/obj/string_c.o
+                                        0x122 (size before relaxing)
+ .debug_str     0x000000000000023c       0x96 ./kernel/obj/init_c.o
+                                        0x1b1 (size before relaxing)
+ .debug_str     0x00000000000002d2       0x30 ./boot/obj/boot_s.o
+ .debug_str     0x0000000000000302        0x8 ./boot/obj/entry_s.o
+                                         0x31 (size before relaxing)
+ .debug_str     0x000000000000030a       0x69 ./driver/obj/pl_uart_c.o
+                                        0x143 (size before relaxing)
+ .debug_str     0x0000000000000373      0x10a ./driver/obj/gic_c.o
+                                        0x241 (size before relaxing)
+ .debug_str     0x000000000000047d       0x85 ./driver/obj/timer_c.o
+                                        0x18b (size before relaxing)
+ .debug_str     0x0000000000000502       0x11 ./driver/obj/irq_c.o
+                                        0x117 (size before relaxing)
+ .debug_str     0x0000000000000513       0x20 ./mm/obj/mm_s.o
+                                         0x2c (size before relaxing)
+ .debug_str     0x0000000000000533       0x42 ./mm/obj/memset_c.o
+                                        0x16f (size before relaxing)
+ .debug_str     0x0000000000000575        0xd ./mm/obj/memset_asm_s.o
+                                         0x34 (size before relaxing)
+ .debug_str     0x0000000000000582      0x231 ./mm/obj/mm_c.o
+                                        0x373 (size before relaxing)
+ .debug_str     0x00000000000007b3       0x5a ./mm/obj/alloc_c.o
+                                        0x16d (size before relaxing)
+ .debug_str     0x000000000000080d       0x5f ./test/obj/test_c.o
+                                        0x146 (size before relaxing)
+
+.comment        0x0000000000000000       0x2b
+ .comment       0x0000000000000000       0x2b ./kernel/obj/printk_c.o
+                                         0x2c (size before relaxing)
+ .comment       0x000000000000002b       0x2c ./kernel/obj/string_c.o
+ .comment       0x000000000000002b       0x2c ./kernel/obj/init_c.o
+ .comment       0x000000000000002b       0x2c ./driver/obj/pl_uart_c.o
+ .comment       0x000000000000002b       0x2c ./driver/obj/gic_c.o
+ .comment       0x000000000000002b       0x2c ./driver/obj/timer_c.o
+ .comment       0x000000000000002b       0x2c ./driver/obj/irq_c.o
+ .comment       0x000000000000002b       0x2c ./mm/obj/memset_c.o
+ .comment       0x000000000000002b       0x2c ./mm/obj/mm_c.o
+ .comment       0x000000000000002b       0x2c ./mm/obj/alloc_c.o
+ .comment       0x000000000000002b       0x2c ./test/obj/test_c.o
+
+.note.GNU-stack
+                0x0000000000000000        0x0
+ .note.GNU-stack
+                0x0000000000000000        0x0 ./kernel/obj/printk_c.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 ./kernel/obj/string_c.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 ./kernel/obj/init_c.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 ./driver/obj/pl_uart_c.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 ./driver/obj/gic_c.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 ./driver/obj/timer_c.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 ./driver/obj/irq_c.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 ./mm/obj/memset_c.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 ./mm/obj/mm_c.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 ./mm/obj/alloc_c.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 ./test/obj/test_c.o

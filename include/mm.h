@@ -46,5 +46,9 @@ void memzero(unsigned long src, unsigned long n);
 #define PAGE_ALIGN_UP(addr)  PAGE_ALIGN(addr)
 #define PAGE_ALIGN_DOWN(addr) (addr & PAGE_MASK)
 
+void setup_arch(void);
+unsigned long alloc_page(void);
+void free_page(unsigned long p);
+void mem_init(unsigned long start_mem, unsigned long end_mem);
 
 #endif // !__INCLUDE_MM_H___
