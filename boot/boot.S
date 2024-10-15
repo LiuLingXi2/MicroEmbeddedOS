@@ -1,4 +1,4 @@
-#include "test_define.h"
+#include "test/test_define.h"
 #include "asm/sysreg.h"
 #include "mm/mm.h"
 

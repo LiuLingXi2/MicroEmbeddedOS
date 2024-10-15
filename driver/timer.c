@@ -1,7 +1,7 @@
 #include "irq.h"
 #include "io.h"
 #include "gic.h"
-#include "printk.h"
+#include "std/printk.h"
 #include "timer.h"
 
 #define HZ 250

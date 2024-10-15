@@ -5,7 +5,7 @@
 #include  "mm/mmu.h"
 #include "io.h"
 #include "mm/mm.h"
-#include "printk.h"
+#include "std/printk.h"
 #include "std/memset.h"
 
 #define NO_BLOCK_MAPPINGS BIT(0)

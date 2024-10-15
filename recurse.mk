@@ -1,7 +1,7 @@
 ARMGNU ?= aarch64-linux-gnu
 
-COPS += -g -Wall -nostdlib -I../include -mgeneral-regs-only
-ASMOPS = -g -I../include 
+COPS += -g -Wall -nostdlib -I../include -I../driver/include -mgeneral-regs-only
+ASMOPS = -g -I../include -I../driver/include
 
 COPS += -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset
 

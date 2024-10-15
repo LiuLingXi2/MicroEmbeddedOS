@@ -1,6 +1,6 @@
 #include "mm/mm.h"
-#include "printk.h"
-#include "test.h"
+#include "std/printk.h"
+#include "test/test.h"
 
 void test_access_map_address(void)
 {

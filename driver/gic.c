@@ -1,6 +1,6 @@
 #include "gic.h"
 #include "irq.h"
-#include "printk.h"
+#include "std/printk.h"
 #include "io.h"
 #include "timer.h"
 

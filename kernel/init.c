@@ -1,11 +1,11 @@
 
 #include "pl_uart.h"
-#include "printk.h"
+#include "std/printk.h"
 #include "gic.h"
 #include "irq.h"
 #include "timer.h"
 #include "io.h"
-#include "test.h"
+#include "test/test.h"
 #include "mm/mm.h"
 #include "mm/mmu.h"
 
