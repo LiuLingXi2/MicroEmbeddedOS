@@ -19,6 +19,7 @@
         "printk.h": "c",
         "memset.h": "c",
         "string.h": "c",
-        "mm.h": "c"
+        "mm.h": "c",
+        "pgtable.h": "c"
     }
 }

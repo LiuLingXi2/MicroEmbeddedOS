@@ -12,7 +12,7 @@ BUILD_DIR 	= build
 LD_DIR 		= boot
 OBJ 		= obj
 
-OBJS := $(shell find . -name "*.o")
+OBJS = $(shell find . -name "*.o")
 
 all : compile_o compile_b
 
@@ -24,7 +24,7 @@ compile_o:
 	$(MAKE) -C driver
 
 compile_b: $(LD_DIR)/alinker.ld
-	$(ARMGNU)-ld $(OBJS) -T $< -Map $(BUILD_DIR)/$(PRO_NAME).map -o $(BUILD_DIR)/$(PRO_NAME).elf
+	$(ARMGNU)-ld -T $< -Map $(BUILD_DIR)/$(PRO_NAME).map -o $(BUILD_DIR)/$(PRO_NAME).elf $(OBJS)
 	$(ARMGNU)-objcopy $(BUILD_DIR)/$(PRO_NAME).elf -O binary $(BUILD_DIR)/$(PRO_NAME).bin
 
 clean :

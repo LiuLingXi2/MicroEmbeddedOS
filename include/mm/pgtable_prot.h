@@ -1,6 +1,8 @@
 #ifndef ASM_PGTABLE_PROT_H
 #define ASM_PGTABLE_PROT_H
 
+#include "mm/mm.h"
+
 /* PGD */
 #define PGDIR_SHIFT 39
 #define PGDIR_SIZE (1UL << PGDIR_SHIFT)
@@ -26,8 +28,8 @@
 #define PTRS_PER_PTE (1 << (PMD_SHIFT - PTE_SHIFT))
 
 /* Section */
-#define SECTION_SHIFT	PMD_SHIFT
-#define SECTION_SIZE	(1UL << SECTION_SHIFT)
+// #define SECTION_SHIFT	PMD_SHIFT
+// #define SECTION_SIZE	(1UL << SECTION_SHIFT)
 #define SECTION_MASK	(~(SECTION_SIZE-1))
 
 /*

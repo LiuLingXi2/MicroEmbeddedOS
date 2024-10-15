@@ -1,7 +1,7 @@
 #ifndef ASM_PGTABLE_H
 #define ASM_PGTABLE_H
 
-#include "mm.h"
+#include "mm/mm.h"
 #include "mm/pgtable_prot.h"
 #include "mm/pgtable_types.h"
 #include "asm/automic.h"

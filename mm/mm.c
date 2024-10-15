@@ -2,10 +2,11 @@
 #include "mm/pgtable.h"
 #include "asm/base.h"
 #include "asm/sysreg.h"
+#include  "mm/mmu.h"
 #include "io.h"
-#include "mm.h"
+#include "mm/mm.h"
 #include "printk.h"
-#include "memset.h"
+#include "std/memset.h"
 
 #define NO_BLOCK_MAPPINGS BIT(0)
 #define NO_CONT_MAPPINGS BIT(1)

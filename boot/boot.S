@@ -1,6 +1,6 @@
 #include "test_define.h"
 #include "asm/sysreg.h"
-#include "mm.h"
+#include "mm/mm.h"
 
     .section ".text.boot"
 

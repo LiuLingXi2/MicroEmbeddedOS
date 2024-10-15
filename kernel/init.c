@@ -6,7 +6,8 @@
 #include "timer.h"
 #include "io.h"
 #include "test.h"
-#include "mm.h"
+#include "mm/mm.h"
+#include "mm/mmu.h"
 
 extern char _text_boot[], _etext_boot[];
 extern char _text[], _etext[];

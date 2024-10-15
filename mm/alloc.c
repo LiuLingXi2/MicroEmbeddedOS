@@ -1,4 +1,4 @@
-#include "mm.h"
+#include "mm/mm.h"
 #include "printk.h"
 
 #define NR_PAGES (TOTAL_MEMORY / PAGE_SIZE)
