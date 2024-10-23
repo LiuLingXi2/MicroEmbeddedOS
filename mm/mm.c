@@ -35,12 +35,13 @@ static void alloc_init_pte(pmd_t *pmdp, unsigned long addr,
 
 	ptep = pte_offset_phys(pmdp, addr);
 	do {
+		// printk("pte addr: 0x%08lx, page addr: 0x%08lx\n", ptep, phys);
 		set_pte(ptep, pfn_pte(phys >> PAGE_SHIFT, prot));
 		phys += PAGE_SIZE;
 	} while (ptep++, addr += PAGE_SIZE, addr != end);
 }
 
-void pmd_set_section(pmd_t *pmdp, unsigned long phys,
+static void pmd_set_section(pmd_t *pmdp, unsigned long phys,
 		unsigned long prot)
 {
 	unsigned long sect_prot = PMD_TYPE_SECT | mk_sect_prot(prot);
@@ -123,7 +124,6 @@ static void __create_pgd_mapping(pgd_t *pgdir, unsigned long phys,
 	phys &= PAGE_MASK;
 	addr = virt & PAGE_MASK;
 	end = PAGE_ALIGN(virt + size);
-
 	do {
 		next = pgd_addr_end(addr, end);
 		
@@ -160,7 +160,7 @@ static void create_identical_mapping(void)
 	start = (unsigned long)_text_boot;
 	end = (unsigned long)_etext;
 
-
+	printk("idmap_pg_dir: 0x%08lx\n", idmap_pg_dir);
 
 	__create_pgd_mapping((pgd_t *)idmap_pg_dir, start, start,
 			end - start, PAGE_KERNEL_ROX,

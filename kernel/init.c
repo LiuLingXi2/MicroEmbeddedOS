@@ -77,7 +77,7 @@ void kernel_main(void)
 
 	// system_timer_init();
 
-	// raw_local_irq_enable();
+	raw_local_irq_enable();
 
 	while (1) {
 		uart_send(uart_recv());
