@@ -1,4 +1,5 @@
 
+
 #define S_FRAME_SIZE 272 /* sizeof(struct pt_regs)	// */
 #define S_X0 0 /* offsetof(struct pt_regs, regs[0])	// */
 #define S_X1 8 /* offsetof(struct pt_regs, regs[1])	// */
@@ -33,9 +34,6 @@
 kernel_entry:
 	sub sp, sp, #S_FRAME_SIZE
 
-	/*
-	   保存通用寄存器x0~x29到栈框里pt_regs->x0~x29
-	 */
 	stp x0, x1, [sp, #16 *0]
 	stp x2, x3, [sp, #16 *1]
 	stp x4, x5, [sp, #16 *2]
@@ -52,24 +50,17 @@ kernel_entry:
 	stp x26, x27, [sp, #16 *13]
 	stp x28, x29, [sp, #16 *14]
 
-	/* x21: 栈顶 的位置*/
 	add     x21, sp, #S_FRAME_SIZE
 
 	mrs     x22, elr_el1
 	mrs     x23, spsr_el1
 
-	/* 把lr保存到pt_regs->lr, 把sp保存到pt_regs->sp位置*/
 	stp     lr, x21, [sp, #S_LR]
-	/* 把elr_el1保存到pt_regs->pc中
-	   把spsr_elr保存到pt_regs->pstate中*/
 	stp     x22, x23, [sp, #S_PC]
 
 	ret
 
 kernel_exit:
-	/* 从pt_regs->pc中恢复elr_el1,
-	   从pt_regs->pstate中恢复spsr_el1
-	   */
 	ldp     x21, x22, [sp, #S_PC]           // load ELR, SPSR
 
 	msr     elr_el1, x21                    // set up the return data
@@ -90,19 +81,13 @@ kernel_exit:
 	ldp     x26, x27, [sp, #16 * 13]
 	ldp     x28, x29, [sp, #16 * 14]
 
-
-	/* 从pt_regs->lr中恢复lr*/
 	ldr     lr, [sp, #S_LR]
 	add     sp, sp, #S_FRAME_SIZE           // restore sp
 
-	/* 注意在kernel_exit函数里，需要把 刚才保存在sp-8的中断现场的lr寄存器恢复*/
 	ldr x30, [sp], 8
 	eret
 	ret
 
-/*
-   处理无效的异常向量
- */
 	.macro inv_entry el, reason
 	//kernel_entry el
 	mov x0, sp
@@ -111,10 +96,6 @@ kernel_exit:
 	b bad_mode
 	.endm
 
-/*
-   vector table entry
-   每个表项是128字节， align 7表示128字节对齐
- */
 	.macro vtentry label
 	.align 7
 	b \label
@@ -169,10 +150,34 @@ trigger_alignment:
 	ldr x1, [x0]
 	ret
 
+tsk     .req    x28             // current thread_info
+
+	.macro get_thread_info, rd
+	mov     \rd, sp
+	and     \rd, \rd, #~(4096 - 1)   // top of stack
+	.endm
+
+.align 2
 el1_irq:
 	str x30, [sp, -8]! // set lr
 	bl kernel_entry
 
 	bl irq_handle
 
+	get_thread_info tsk
+	// ldr  w24, [tsk, #TI_PREEMPT]
+	// cbnz w24, 1f
+	// ldr  w0, [tsk, #NEED_RESCHED]
+	// cbz w0, 1f
+	bl el1_preempt
+1:
 	bl kernel_exit
+
+el1_preempt:
+	mov     x24, lr
+	bl preempt_schedule_irq
+	ret     x24
+
+.global ret_to_user
+ret_to_user:
+    inv_entry 0, BAD_ERROR

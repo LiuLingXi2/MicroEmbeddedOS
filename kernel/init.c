@@ -8,6 +8,8 @@
 #include "test/test.h"
 #include "mm/mm.h"
 #include "mm/mmu.h"
+#include "asm/system.h"
+#include "asm/sche.h"
 
 extern char _text_boot[], _etext_boot[];
 extern char _text[], _etext[];
@@ -35,6 +37,12 @@ static void pmem_layout(void)
 			(unsigned long)(_ebss - _bss));
 }
 
+static void define_offsetof(void)
+{
+	DEFINE(THREAD_CPU_CONTEXT, offsetof(struct task_struct, cpu_context));
+	DEFINE(TI_PREEMPT,  offsetof(struct task_struct, preempt_count));
+	DEFINE(NEED_RESCHED, offsetof(struct task_struct, need_resched));
+}
 
 static const char * const bad_mode_handler[] = {
 	"Sync Abort",
@@ -52,6 +60,7 @@ void bad_mode(struct pt_regs *regs, int reason, unsigned int esr)
 
 void kernel_main(void)
 {
+	define_offsetof();
 	uart_init();
     printk_init();
 
