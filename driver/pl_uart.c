@@ -1,5 +1,5 @@
 #include "asm/pl_uart.h"
-#include "asm/gpio.h"
+#include "gpio.h"
 #include "io.h"
 
 void uart_send(char c)

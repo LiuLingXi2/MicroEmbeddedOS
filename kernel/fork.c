@@ -1,4 +1,4 @@
-#include "asm/sche.h"
+#include "proc/sche.h"
 #include "mm/mmu.h"
 #include "std/printk.h"
 #include "irq.h"

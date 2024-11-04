@@ -3,8 +3,8 @@
 #define __INCLUDE_SCHE_H__
 
 #include "mm/mm.h"
-#include "list.h"
-#include "queue.h"
+#include "proc/list.h"
+#include "proc/queue.h"
 
 #define THREAD_SIZE  (1 * PAGE_SIZE)
 #define THREAD_START_SP (THREAD_SIZE - 8)
@@ -73,7 +73,9 @@ union task_union {
 	.prev_task = (struct task_struct *)&task, \
 }
 
-union task_union init_task_union __init_task_data = {INIT_TASK(init_task_union.task)};
+// union task_union init_task_union __init_task_data = {INIT_TASK(init_task_union.task)};
+extern union task_union init_task_union;
+
 
 struct sched_class {
 	const struct sched_class *next;
@@ -116,5 +118,6 @@ struct task_struct * switch_to(struct task_struct *prev, struct task_struct *nex
 
 extern void ret_from_fork(void);
 extern struct task_struct *cpu_switch_to(struct task_struct *prev, struct task_struct *next);
+int do_fork(unsigned long flags, unsigned long fn, unsigned long args);
 
 #endif //!__INCLUDE_SCHE_H__

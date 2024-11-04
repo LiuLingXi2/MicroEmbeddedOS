@@ -9,7 +9,7 @@
 #include "mm/mm.h"
 #include "mm/mmu.h"
 #include "asm/system.h"
-#include "asm/sche.h"
+#include "proc/sche.h"
 
 extern char _text_boot[], _etext_boot[];
 extern char _text[], _etext[];
@@ -58,6 +58,22 @@ void bad_mode(struct pt_regs *regs, int reason, unsigned int esr)
 			esr);
 }
 
+void kernel_thread1(void)
+{
+	while (1) {
+		delay(80000);
+		printk("%s: %s\n", __func__, "12345");
+	}
+}
+
+void kernel_thread2(void)
+{
+	while (1) {
+		delay(50000);
+		printk("%s: %s\n", __func__, "abcde");
+	}
+}
+
 void kernel_main(void)
 {
 	define_offsetof();
@@ -74,15 +90,26 @@ void kernel_main(void)
 
 	printk("microembeeded os loading address: 0x%08lx\n", (unsigned long)_text_boot);
 	
-	// mem_init();
-	setup_arch();
+	mem_init((unsigned long)_ebss, TOTAL_MEMORY);
+	sched_init();
+	// setup_arch();
 	
-	test_access_map_address();
-	test_access_unmap_address();
+	// test_access_map_address();
+	// test_access_unmap_address();
 
-	gic_init(0, GIC_DISPATCH, GIC_CPU);
+	// gic_init(0, GIC_DISPATCH, GIC_CPU);
 
-	// local_timer_init();
+	int pid;
+
+	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread1, 0);
+	if (pid < 0) {
+		printk("create thread fail\n");
+	}
+	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread2, 0);
+	if (pid < 0) {
+		printk("create thread fail\n");
+	}
+	local_timer_init();
 
 	// system_timer_init();
 

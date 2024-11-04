@@ -23,6 +23,7 @@ compile_o:
 	$(MAKE) -C mm
 	$(MAKE) -C driver
 	$(MAKE) -C std
+	$(MAKE) -C arch
 
 compile_b: $(LD_DIR)/alinker.ld
 	$(ARMGNU)-ld -T $< -Map $(BUILD_DIR)/$(PRO_NAME).map -o $(BUILD_DIR)/$(PRO_NAME).elf $(OBJS)
@@ -35,6 +36,7 @@ clean :
 	$(MAKE) -C mm clean
 	$(MAKE) -C driver clean
 	$(MAKE) -C std clean
+	$(MAKE) -C arch clean
 
 	rm -rf  $(BUILD_DIR)/*
 

@@ -114,12 +114,12 @@ vectors:
 	vtentry el1_fiq_invalid
 	vtentry el1_error_invalid
 
-	vtentry el0_sync_invalid
+	vtentry el0_sync
 	vtentry el0_irq_invalid
 	vtentry el0_fiq_invalid
 	vtentry el0_error_invalid
 
-	vtentry el0_sync_invalid
+	vtentry el0_sync
 	vtentry el0_irq_invalid
 	vtentry el0_fiq_invalid
 	vtentry el0_error_invalid
@@ -181,3 +181,17 @@ el1_preempt:
 .global ret_to_user
 ret_to_user:
     inv_entry 0, BAD_ERROR
+
+el0_sync:
+	bl kernel_entry
+	mrs x25, esr_el1
+	lsr x24, x25, #0x3F // EC
+	mov x26, #0x15 // 0x15: 64 syscall
+	cmp x24, x26
+	b.eq el0_svc
+	// bl kernel_exit
+
+el0_svc:
+	mov x0, sp
+	bl el0_svc_handle
+	b ret_to_user

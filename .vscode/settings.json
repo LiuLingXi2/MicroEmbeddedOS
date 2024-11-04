@@ -21,6 +21,9 @@
         "string.h": "c",
         "mm.h": "c",
         "pgtable.h": "c",
-        "timer.h": "c"
+        "timer.h": "c",
+        "sstream": "cpp",
+        "queue.h": "c",
+        "irq.h": "c"
     }
 }

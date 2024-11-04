@@ -1,7 +1,7 @@
 #ifndef	_P_GPIO_H
 #define	_P_GPIO_H
 
-#include "base.h"
+#include "asm/base.h"
 
 #define GPFSEL1         (PBASE+0x00200004)
 #define GPSET0          (PBASE+0x0020001C)

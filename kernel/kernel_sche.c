@@ -1,5 +1,5 @@
-#include "asm/sche.h"
-#include "asm/queue.h"
+#include "proc/sche.h"
+#include "proc/queue.h"
 #include "std/printk.h"
 #include "irq.h"
 

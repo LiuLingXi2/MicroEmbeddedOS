@@ -1,9 +1,11 @@
-#include "asm/sche.h"
-#include "asm/queue.h"
+#include "proc/sche.h"
+#include "proc/queue.h"
 #include "std/printk.h"
 #include "irq.h"
 
 struct run_queue g_rq;
+
+union task_union init_task_union __init_task_data = {INIT_TASK(init_task_union.task)};
 
 struct task_struct *pick_next_task(struct run_queue *rq,
 		struct task_struct *prev)

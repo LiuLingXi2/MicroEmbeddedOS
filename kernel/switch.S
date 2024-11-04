@@ -2,7 +2,7 @@
 .global cpu_switch_to
 cpu_switch_to:
     // prec -> cpu_context
-    add x8, x0, #THREAD_CPU_CONTEXT
+    add x8, x0, #0xC
     mov x9, sp
 	stp     x19, x20, [x8], #16
 	stp     x21, x22, [x8], #16
@@ -13,7 +13,7 @@ cpu_switch_to:
 	str     lr, [x8]
 
     // cpu_context -> next
-	add     x8, x1, #THREAD_CPU_CONTEXT
+	add     x8, x1, #0xC
 	ldp     x19, x20, [x8], #16
 	ldp     x21, x22, [x8], #16
 	ldp     x23, x24, [x8], #16
