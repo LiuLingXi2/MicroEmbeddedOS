@@ -82,7 +82,15 @@ int do_fork(unsigned long flags, unsigned long fn, unsigned long args)
 
     ts->state = TASK_RUNNING;
     ts->pid = pid;
+    ts->counter = 100;
+	// current->counter >>= 1;
+	ts->need_resched = 0;
+	ts->preempt_count = 0;
+	ts->priority = 2;
+
     g_pcb[pid] = ts;
+    SET_LINKS(ts);
+    wake_up_process(ts);
 
     return pid;
 error:

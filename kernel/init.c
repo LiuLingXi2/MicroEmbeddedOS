@@ -105,11 +105,14 @@ void kernel_main(void)
 	if (pid < 0) {
 		printk("create thread fail\n");
 	}
+
 	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread2, 0);
 	if (pid < 0) {
 		printk("create thread fail\n");
 	}
 	local_timer_init();
+
+	schedule();
 
 	// system_timer_init();
 

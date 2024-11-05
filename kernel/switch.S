@@ -2,7 +2,7 @@
 .global cpu_switch_to
 cpu_switch_to:
     // prec -> cpu_context
-    add x8, x0, #0xC
+    add x8, x0, #0x10 // print &((struct task_struct *)0)->cpu_context  byte align
     mov x9, sp
 	stp     x19, x20, [x8], #16
 	stp     x21, x22, [x8], #16
@@ -13,7 +13,7 @@ cpu_switch_to:
 	str     lr, [x8]
 
     // cpu_context -> next
-	add     x8, x1, #0xC
+	add     x8, x1, #0x10
 	ldp     x19, x20, [x8], #16
 	ldp     x21, x22, [x8], #16
 	ldp     x23, x24, [x8], #16
