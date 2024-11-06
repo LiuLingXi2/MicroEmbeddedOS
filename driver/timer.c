@@ -64,6 +64,7 @@ void system_timer_init(void)
 void handle_timer_irq(void)
 {
 	generic_timer_reset(val);
+	// 进程调度
 	printk("Core0 Local Timer interrupt received\r\n");
 }
 

@@ -20,7 +20,7 @@ cpu_switch_to:
 	ldp     x25, x26, [x8], #16
 	ldp     x27, x28, [x8], #16
 	ldp     x29, x9, [x8], #16
-	ldr     lr, [x8]
+	ldr     lr, [x8] // it will jump to the address of the new process and will not return to the switch_to function
 	mov     sp, x9
     ret
 

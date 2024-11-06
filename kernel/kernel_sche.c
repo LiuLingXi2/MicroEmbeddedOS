@@ -13,13 +13,14 @@ static void enqueue_task_kernel(struct run_queue *rq, struct task_struct *p)
 {
 	list_add(&p->run_list, &rq->rq_head);
 	rq->nr_running++;
+	// printk("nr_running: %d\n", g_rq.nr_running);
 }
 
 static int goodness(struct task_struct *p)
 {
 	int weight;
 
-	weight = p->counter;
+	weight = p->priority;
 
 	return weight;
 }
@@ -34,7 +35,9 @@ static void reset_score(void)
 	}
 }
 
-
+/**
+ * @brief the priority scheduling policy is adopted
+ */
 static struct task_struct *pick_next_task_kernel(struct run_queue *rq, struct task_struct *prev)
 {
 	struct task_struct *p, *next;
@@ -42,8 +45,12 @@ static struct task_struct *pick_next_task_kernel(struct run_queue *rq, struct ta
 	int weight;
 	int c;
 
+	if (rq->nr_running == 0U) {
+		printk("idle-----------\n");
+		return &init_task_union.task;
+	}
 repeat:
-	c = -1000;
+	c = -1;
 	list_for_each(tmp, &rq->rq_head) {
 		p = list_entry(tmp, struct task_struct, run_list);
 		weight = goodness(p);
@@ -53,10 +60,14 @@ repeat:
 		}
 	}
 
-	if (!c) { // all clock end
-		reset_score();
-		goto repeat;
-	}
+	// if (!c) { // all clock end
+	// 	reset_score();
+	// 	goto repeat;
+	// }
+
+	// remove from the ready queue
+	dequeue_task(&g_rq, next);
+	next->state = TASK_RUNNING;
 
 	printk("%s: pick next thread (pid %d)\n", __func__, next->pid);
 

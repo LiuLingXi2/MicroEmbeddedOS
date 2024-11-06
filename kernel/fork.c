@@ -12,7 +12,7 @@ struct task_struct *g_pcb[NR_TASK] = {
     &init_task_union.task,
 };
 
-// static struct task_struct *current = &init_task_union.task;
+static struct task_struct *current_proc = &init_task_union.task;
 
 static int find_empty_task(void)
 {
@@ -60,7 +60,19 @@ static int copy_thread(unsigned long flags, unsigned long fn, unsigned long args
     return 0;
 }
 
-int do_fork(unsigned long flags, unsigned long fn, unsigned long args)
+/**
+ * @brief Process task_struct single-linked list, easy to find, using the header insertion method
+ */
+static void task2task_link(struct task_struct *ts)
+{
+    if (ts != NULL) {
+        ts->next_task = current_proc;
+        // current_proc = ts; 
+    }
+
+}
+
+int do_fork(unsigned long flags, unsigned long fn, unsigned long args, int pri)
 {
     struct task_struct *ts;
     int pid;
@@ -80,16 +92,17 @@ int do_fork(unsigned long flags, unsigned long fn, unsigned long args)
         goto error;
     }
 
-    ts->state = TASK_RUNNING;
+    ts->state = TASK_READY;
     ts->pid = pid;
     ts->counter = 100;
-	// current->counter >>= 1;
-	ts->need_resched = 0;
+	ts->need_resched = 1;
 	ts->preempt_count = 0;
-	ts->priority = 2;
+	ts->priority = pri;
 
     g_pcb[pid] = ts;
-    SET_LINKS(ts);
+    // SET_LINKS(ts);
+    task2task_link(ts);
+    // Join the rq queue by head insertion
     wake_up_process(ts);
 
     return pid;

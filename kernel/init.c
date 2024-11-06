@@ -60,19 +60,21 @@ void bad_mode(struct pt_regs *regs, int reason, unsigned int esr)
 
 void kernel_thread1(void)
 {
-	while (1) {
-		delay(80000);
+	// while (1) {
+	// 	delay(800000);
 		printk("%s: %s\n", __func__, "12345");
-	}
+	// }
+	exit(1);
 }
 
-void kernel_thread2(void)
-{
-	while (1) {
-		delay(50000);
-		printk("%s: %s\n", __func__, "abcde");
-	}
-}
+// void kernel_thread2(void)
+// {
+// 	// while (1) {
+// 	// 	delay(500000);
+// 		printk("%s: %s\n", __func__, "abcde");
+// 	// }
+// 	exit(1);
+// }
 
 void kernel_main(void)
 {
@@ -99,24 +101,28 @@ void kernel_main(void)
 
 	// gic_init(0, GIC_DISPATCH, GIC_CPU);
 
-	int pid;
-
-	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread1, 0);
-	if (pid < 0) {
-		printk("create thread fail\n");
-	}
-
-	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread2, 0);
-	if (pid < 0) {
-		printk("create thread fail\n");
-	}
 	local_timer_init();
 
-	schedule();
+	// schedule();
 
 	// system_timer_init();
 
 	raw_local_irq_enable();
+
+	alloc_page();
+	int pid;
+
+	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread1, 0, 10);
+	if (pid < 0) {
+		printk("create thread fail\n");
+	}
+
+	// pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread2, 0, 5);
+	// if (pid < 0) {
+	// 	printk("create thread fail\n");
+	// }
+
+	schedule();
 
 	while (1) {
 		uart_send(uart_recv());

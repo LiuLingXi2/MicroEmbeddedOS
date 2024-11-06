@@ -7,6 +7,8 @@ struct run_queue g_rq;
 
 union task_union init_task_union __init_task_data = {INIT_TASK(init_task_union.task)};
 
+static struct task_struct *ret_task;
+
 struct task_struct *pick_next_task(struct run_queue *rq,
 		struct task_struct *prev)
 {
@@ -38,9 +40,9 @@ void task_tick(struct run_queue *rq, struct task_struct *p)
 
 struct task_struct * switch_to(struct task_struct *prev, struct task_struct *next)
 {
-	if (prev == next)
+	if (prev == next) {
 		return NULL;
-
+	}
 	return cpu_switch_to(prev, next);
 }
 
@@ -72,26 +74,30 @@ static void __schedule(void)
 {
 	struct task_struct *prev, *next, *last;
 	struct run_queue *rq = &g_rq;
-
 	prev = current;
+	ret_task = prev;
 
 	schedule_debug(prev);
 
 	raw_local_irq_disable(); // cli
 
+	// place the current process in the ready queue
 	if (prev->state == TASK_RUNNING) {
-		dequeue_task(rq, prev);
-    }
-
+		prev->state = TASK_READY;
+		// dequeue_task(rq, prev);
+	}
+	// select the next process to run
 	next = pick_next_task(rq, prev);
+	// clears some states of the current process
 	clear_task_resched(prev);
 	if (next != prev) {
-		last = switch_to(prev, next);
 		rq->nr_switches++;
 		rq->curr = current;
+		// next->priority = 1;
+		last = switch_to(prev, next);
 	}
-
-	schedule_tail(last);
+	printk("asd\n");
+	schedule_tail(last); //sti
 }
 
 static void preempt_disable(void)
@@ -130,7 +136,7 @@ void wake_up_process(struct task_struct *p)
 {
 	struct run_queue *rq = &g_rq;
 
-	p->state = TASK_RUNNING;
+	// p->state = TASK_READY;
 
 	enqueue_task(rq, p);
 }
@@ -143,4 +149,13 @@ void sched_init(void)
 	rq->nr_running = 0;
 	rq->nr_switches = 0;
 	rq->curr = NULL;
+}
+
+/**
+ * @brief actively exit, set it to TASK_STOPPED, and schedule it again
+ */
+void exit(int n)
+{
+	current->state = TASK_STOPPED;
+	schedule();
 }
