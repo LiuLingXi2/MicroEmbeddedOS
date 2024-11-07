@@ -164,12 +164,12 @@ el1_irq:
 
 	bl irq_handle
 
-	get_thread_info tsk
-	// ldr  w24, [tsk, #TI_PREEMPT]
+	// get_thread_info tsk
+	// ldr  w24, [tsk, #0x64]
 	// cbnz w24, 1f
-	// ldr  w0, [tsk, #NEED_RESCHED]
+	// ldr  w0, [tsk, #0x60]
 	// cbz w0, 1f
-	bl el1_preempt
+	bl el1_preempt // Direct grab
 1:
 	bl kernel_exit
 

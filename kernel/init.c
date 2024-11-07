@@ -60,25 +60,25 @@ void bad_mode(struct pt_regs *regs, int reason, unsigned int esr)
 
 void kernel_thread1(void)
 {
-	// while (1) {
-	// 	delay(800000);
-		printk("%s: %s\n", __func__, "12345");
-	// }
+	while (1) {
+		delay(50000000);
+		printk("%s: %s\n", __func__, "10");
+	}
 	exit(1);
 }
 
-// void kernel_thread2(void)
-// {
-// 	// while (1) {
-// 	// 	delay(500000);
-// 		printk("%s: %s\n", __func__, "abcde");
-// 	// }
-// 	exit(1);
-// }
+void kernel_thread2(void)
+{
+	while (1) {
+		delay(10000000);
+		printk("%s: %s\n", __func__, "5");
+	}
+	exit(1);
+}
 
 void kernel_main(void)
 {
-	define_offsetof();
+	// define_offsetof();
 	uart_init();
     printk_init();
 
@@ -95,27 +95,36 @@ void kernel_main(void)
 	mem_init((unsigned long)_ebss, TOTAL_MEMORY);
 	sched_init();
 	// setup_arch();
-	
+
+	int pid;
+	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread1, 0, 10);
+	if (pid < 0) {
+		printk("create thread fail\n");
+	}
+
+	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread2, 0, 5);
+	if (pid < 0) {
+		printk("create thread fail\n");
+	}
+
 	// test_access_map_address();
 	// test_access_unmap_address();
 
-	// gic_init(0, GIC_DISPATCH, GIC_CPU);
+	gic_init(0, GIC_DISPATCH, GIC_CPU);
 
 	local_timer_init();
-
-	// schedule();
 
 	// system_timer_init();
 
 	raw_local_irq_enable();
 
-	alloc_page();
-	int pid;
+	// alloc_page();
+	// int pid;
 
-	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread1, 0, 10);
-	if (pid < 0) {
-		printk("create thread fail\n");
-	}
+	// pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread1, 0, 10);
+	// if (pid < 0) {
+	// 	printk("create thread fail\n");
+	// }
 
 	// pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread2, 0, 5);
 	// if (pid < 0) {

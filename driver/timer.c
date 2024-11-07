@@ -3,8 +3,9 @@
 #include "gic.h"
 #include "std/printk.h"
 #include "timer.h"
+#include "proc/sche.h"
 
-#define HZ 250
+#define HZ 5
 #define NSEC_PER_SEC    1000000000L
 
 static unsigned int val = NSEC_PER_SEC / HZ;
@@ -64,8 +65,14 @@ void system_timer_init(void)
 void handle_timer_irq(void)
 {
 	generic_timer_reset(val);
-	// 进程调度
+	// re-sched allow-sche
 	printk("Core0 Local Timer interrupt received\r\n");
+	printk("current pid: %d\n", current->pid);
+
+	current->priority = 1; // dynamic priority
+
+	// if (current->preempt_count = 0) {
+	// schedule();
 }
 
 void handle_stimer_irq(void)

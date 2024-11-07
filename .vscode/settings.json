@@ -24,6 +24,7 @@
         "timer.h": "c",
         "sstream": "cpp",
         "queue.h": "c",
-        "irq.h": "c"
+        "irq.h": "c",
+        "type.h": "c"
     }
 }

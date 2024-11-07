@@ -79,12 +79,12 @@ static void __schedule(void)
 
 	schedule_debug(prev);
 
-	raw_local_irq_disable(); // cli
+	// raw_local_irq_disable(); // cli
 
 	// place the current process in the ready queue
 	if (prev->state == TASK_RUNNING) {
 		prev->state = TASK_READY;
-		// dequeue_task(rq, prev);
+		enqueue_task(rq, prev);
 	}
 	// select the next process to run
 	next = pick_next_task(rq, prev);
@@ -94,10 +94,10 @@ static void __schedule(void)
 		rq->nr_switches++;
 		rq->curr = current;
 		// next->priority = 1;
-		last = switch_to(prev, next);
+		last = switch_to(prev, next); // ?
 	}
-	printk("asd\n");
-	schedule_tail(last); //sti
+	printk("yesyes\n");
+	// schedule_tail(last); //sti
 }
 
 static void preempt_disable(void)
@@ -123,12 +123,12 @@ void preempt_schedule_irq(void)
 	if (preempt_count())
 		printk("BUG: %s incorrect preempt count: 0x%x\n",
 				__func__, preempt_count());
-
+	printk("test\n");
 	preempt_disable();
 
-	raw_local_irq_enable();
+	// raw_local_irq_enable();
 	__schedule();
-	raw_local_irq_disable();
+	// raw_local_irq_disable();
 	preempt_enable();
 }
 
@@ -136,7 +136,7 @@ void wake_up_process(struct task_struct *p)
 {
 	struct run_queue *rq = &g_rq;
 
-	// p->state = TASK_READY;
+	p->state = TASK_READY;
 
 	enqueue_task(rq, p);
 }
