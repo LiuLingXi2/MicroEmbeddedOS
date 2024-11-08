@@ -78,7 +78,7 @@ void kernel_thread2(void)
 
 void kernel_thread3(void)
 {
-	while (1) {
+	for (int i = 0; i < 2; i ++) {
 		delay(50000000);
 		printk("%s: %s\n", __func__, "3");
 	}
@@ -111,7 +111,7 @@ void kernel_main(void)
 		printk("create thread fail\n");
 	}
 
-	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread2, 0, 5);
+	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread2, 0, 2);
 	if (pid < 0) {
 		printk("create thread fail\n");
 	}

@@ -79,7 +79,7 @@ static void __schedule(void)
 
 	schedule_debug(prev);
 
-	// raw_local_irq_disable(); // cli
+	raw_local_irq_disable(); // cli
 
 	// place the current process in the ready queue
 	if (prev->state == TASK_RUNNING) {
@@ -97,7 +97,7 @@ static void __schedule(void)
 		(void)switch_to(prev, next); // backup prev data
 		// (void)cpu_switch_next(next);
 	}
-
+	raw_local_irq_enable();
 	(void)cpu_switch_next(next);
 	// schedule_tail(last); //sti
 	// start_new_process(next);
