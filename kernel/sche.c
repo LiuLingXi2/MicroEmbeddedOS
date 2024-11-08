@@ -43,7 +43,7 @@ struct task_struct * switch_to(struct task_struct *prev, struct task_struct *nex
 	if (prev == next) {
 		return NULL;
 	}
-	return cpu_switch_to(prev, next);
+	return cpu_switch_prev(prev);
 }
 
 void schedule_tail(struct task_struct *prev)
@@ -94,10 +94,13 @@ static void __schedule(void)
 		rq->nr_switches++;
 		rq->curr = current;
 		// next->priority = 1;
-		last = switch_to(prev, next); // ?
+		(void)switch_to(prev, next); // backup prev data
+		// (void)cpu_switch_next(next);
 	}
-	printk("yesyes\n");
+
+	(void)cpu_switch_next(next);
 	// schedule_tail(last); //sti
+	// start_new_process(next);
 }
 
 static void preempt_disable(void)
@@ -123,10 +126,9 @@ void preempt_schedule_irq(void)
 	if (preempt_count())
 		printk("BUG: %s incorrect preempt count: 0x%x\n",
 				__func__, preempt_count());
-	printk("test\n");
 	preempt_disable();
 
-	// raw_local_irq_enable();
+	raw_local_irq_enable();
 	__schedule();
 	// raw_local_irq_disable();
 	preempt_enable();

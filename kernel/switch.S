@@ -1,6 +1,6 @@
 .align
-.global cpu_switch_to
-cpu_switch_to:
+.global cpu_switch_prev
+cpu_switch_prev:
     // prec -> cpu_context
     add 	x8, x0, #0x10 // print &((struct task_struct *)0)->cpu_context  byte align
     mov 	x9, sp
@@ -12,17 +12,29 @@ cpu_switch_to:
 	stp     x29, x9, [x8], #16
 	str     lr, [x8]
 
+
+.align
+.global cpu_switch_next
+cpu_switch_next:
     // cpu_context -> next
-	add     x8, x1, #0x10
+	add     x8, x0, #0x10
 	ldp     x19, x20, [x8], #16
 	ldp     x21, x22, [x8], #16
 	ldp     x23, x24, [x8], #16
 	ldp     x25, x26, [x8], #16
 	ldp     x27, x28, [x8], #16
 	ldp     x29, x9, [x8], #16
+	// lr return schedule
 	ldr     lr, [x8] // it will jump to the address of the new process and will not return to the switch_to function
 	mov     sp, x9
     ret
+
+.align
+.global start_new_process
+start_new_process:
+	add     x8, x0, #0x10
+	ldr     lr, [x8]
+	ret
 
 
 .align 2

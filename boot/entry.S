@@ -88,6 +88,9 @@ kernel_exit:
 	eret
 	ret
 
+scheduler1:
+	b schedule
+
 	.macro inv_entry el, reason
 	//kernel_entry el
 	mov x0, sp
@@ -159,7 +162,7 @@ tsk     .req    x28             // current thread_info
 
 .align 2
 el1_irq:
-	str x30, [sp, -8]! // set lr
+	// str x30, [sp, -8]! // set lr
 	bl kernel_entry
 
 	bl irq_handle
@@ -175,7 +178,7 @@ el1_irq:
 
 el1_preempt:
 	mov     x24, lr
-	bl preempt_schedule_irq
+	b preempt_schedule_irq
 	ret     x24
 
 .global ret_to_user

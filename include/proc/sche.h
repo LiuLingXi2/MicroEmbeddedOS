@@ -128,7 +128,10 @@ struct task_struct * switch_to(struct task_struct *prev, struct task_struct *nex
 void dequeue_task(struct run_queue *rq, struct task_struct *p);
 
 extern void ret_from_fork(void);
-extern struct task_struct *cpu_switch_to(struct task_struct *prev, struct task_struct *next);
+extern struct task_struct *cpu_switch_prev(struct task_struct *prev);
+extern struct task_struct *cpu_switch_next(struct task_struct *next);
+extern void start_new_process(struct task_struct *next);
+
 void wake_up_process(struct task_struct *p);
 int do_fork(unsigned long flags, unsigned long fn, unsigned long args, int pri);
 

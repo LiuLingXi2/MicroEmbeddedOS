@@ -70,8 +70,17 @@ void kernel_thread1(void)
 void kernel_thread2(void)
 {
 	while (1) {
-		delay(10000000);
+		delay(50000000);
 		printk("%s: %s\n", __func__, "5");
+	}
+	exit(1);
+}
+
+void kernel_thread3(void)
+{
+	while (1) {
+		delay(50000000);
+		printk("%s: %s\n", __func__, "3");
 	}
 	exit(1);
 }
@@ -107,6 +116,11 @@ void kernel_main(void)
 		printk("create thread fail\n");
 	}
 
+	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread3, 0, 3);
+	if (pid < 0) {
+		printk("create thread fail\n");
+	}
+
 	// test_access_map_address();
 	// test_access_unmap_address();
 
@@ -117,19 +131,6 @@ void kernel_main(void)
 	// system_timer_init();
 
 	raw_local_irq_enable();
-
-	// alloc_page();
-	// int pid;
-
-	// pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread1, 0, 10);
-	// if (pid < 0) {
-	// 	printk("create thread fail\n");
-	// }
-
-	// pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread2, 0, 5);
-	// if (pid < 0) {
-	// 	printk("create thread fail\n");
-	// }
 
 	schedule();
 
