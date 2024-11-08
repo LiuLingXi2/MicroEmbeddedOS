@@ -60,10 +60,10 @@ void bad_mode(struct pt_regs *regs, int reason, unsigned int esr)
 
 void kernel_thread1(void)
 {
-	while (1) {
-		delay(50000000);
+	// while (1) {
+	// 	delay(50000000);
 		printk("%s: %s\n", __func__, "10");
-	}
+	// }
 	exit(1);
 }
 
@@ -85,6 +85,36 @@ void kernel_thread3(void)
 	exit(1);
 }
 
+void uart_recv_str(char *buffer, int length) {
+    int i = 0;
+    char c;
+    while (i < length - 1) {
+        c = uart_recv();
+        uart_send(c);  // 实时回显输入字符
+
+        if (c == '\n' || c == '\r') {  // 检测到换行或回车，结束输入
+            uart_send('\r');           // 发送 '\r' 让光标回到行首
+            uart_send('\n');           // 换行
+            break;
+        }
+
+        buffer[i++] = c;
+    }
+    buffer[i] = '\0';  // 以 null 字符结束字符串
+}
+
+void uart_send_str(const char *str) {
+    while (*str) {
+        uart_send(*str);
+        str++;
+    }
+}
+
+void parse_cmd()
+{
+
+}
+
 void kernel_main(void)
 {
 	// define_offsetof();
@@ -103,38 +133,46 @@ void kernel_main(void)
 	
 	mem_init((unsigned long)_ebss, TOTAL_MEMORY);
 	sched_init();
-	// setup_arch();
+	setup_arch();
 
-	int pid;
-	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread1, 0, 10);
-	if (pid < 0) {
-		printk("create thread fail\n");
-	}
+	// int pid;
+	// pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread1, 0, 10);
+	// if (pid < 0) {
+	// 	printk("create thread fail\n");
+	// }
 
-	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread2, 0, 2);
-	if (pid < 0) {
-		printk("create thread fail\n");
-	}
+	// pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread2, 0, 2);
+	// if (pid < 0) {
+	// 	printk("create thread fail\n");
+	// }
 
-	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread3, 0, 3);
-	if (pid < 0) {
-		printk("create thread fail\n");
-	}
+	// pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread3, 0, 3);
+	// if (pid < 0) {
+	// 	printk("create thread fail\n");
+	// }
 
-	// test_access_map_address();
-	// test_access_unmap_address();
+	test_access_map_address();
+	test_access_unmap_address();
 
-	gic_init(0, GIC_DISPATCH, GIC_CPU);
+	// gic_init(0, GIC_DISPATCH, GIC_CPU);
 
-	local_timer_init();
+	// local_timer_init();
 
 	// system_timer_init();
 
 	raw_local_irq_enable();
 
-	schedule();
+	// schedule();
+
+	char input[1024];
 
 	while (1) {
-		uart_send(uart_recv());
+		uart_send_str("liuzixuan-shell> ");
+
+		uart_recv_str(input, sizeof(input));
+
+		uart_send_str("exec over \r\n");
+
 	}
+
 }

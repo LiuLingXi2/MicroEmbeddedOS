@@ -25,6 +25,7 @@
         "sstream": "cpp",
         "queue.h": "c",
         "irq.h": "c",
-        "type.h": "c"
+        "type.h": "c",
+        "cmath": "c"
     }
 }

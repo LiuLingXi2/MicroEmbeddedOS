@@ -66,6 +66,35 @@ Bad mode for Sync Abort handler detected, far:0x20001000 esr:0x96000046
 gic_init [ cpu_base:0xff842000, dist_base:0xff841000, gic_irqs:160 ]
 ```
 
+进程调度（默认采用抢占式优先级调度算法）
+
+pid 1 (priority 10)-> pid 3 (priority 5) -> pid 2 (priority 3)
+
+process running sequence:
+
+```shell
+pick_next_task_kernel: pick next thread (pid 1)
+kernel_thread1: 10
+pick_next_task_kernel: pick next thread (pid 3)
+kernel_thread3: 3
+kernel_thread3: 3
+pick_next_task_kernel: pick next thread (pid 2)
+kernel_thread2: 5
+Core0 Local Timer interrupt received
+current pid: 2
+pick_next_task_kernel: pick next thread (pid 2)
+kernel_thread2: 5
+kernel_thread2: 5
+kernel_thread2: 5
+Core0 Local Timer interrupt received
+current pid: 2
+BUG: preempt_schedule_irq incorrect preempt count: 0x1
+BUG: scheduling while atomic: 2, 0x2
+pick_next_task_kernel: pick next thread (pid 2)
+kernel_thread2: 5
+kernel_thread2: 5
+```
+
 当前进度和计划
 
 - 日志系统 ×
