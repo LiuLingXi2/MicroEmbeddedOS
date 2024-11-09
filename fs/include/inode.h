@@ -11,10 +11,11 @@ typedef struct INode{
     int type;
     char name[32];
     struct INode *entries[MAX_INODE_ENTRIES];
+    struct INode *parent;
 } INode;
 
 int create_inode(int type, const char* name);
 int add_inode_to_directory(INode* dir, INode* inode);
-INode* find_inode_by_name(INode *parent, const char *name);
+INode* find_inode_by_name(const char *name);
 
 #endif // !__INCLUDE_INODE_H__

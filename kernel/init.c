@@ -7,11 +7,14 @@
 #include <io.h>
 #include <ssd.h>
 #include <fs.h>
+#include <shell.h>
 #include <test/test.h>
 #include <mm/mm.h>
 #include <mm/mmu.h>
 #include <asm/system.h>
 #include <proc/sche.h>
+#include <ext2fs.h>
+#include <std/string.h>
 
 extern char _text_boot[], _etext_boot[];
 extern char _text[], _etext[];
@@ -120,6 +123,9 @@ void parse_cmd()
 
 void kernel_main(void)
 {
+	char input[1024];
+	char *args[3];
+
 	// define_offsetof();
 	uart_init();
     printk_init();
@@ -163,22 +169,25 @@ void kernel_main(void)
 
 	// system_timer_init();
 
-	raw_local_irq_enable();
+	raw_local_irq_enable(); // sti
 
 	// schedule();
 
-	char input[1024];
-
 	ssd_init();
-
 	fs_init();
 
 	while (1) {
-		uart_send_str("liuzixuan-shell> ");
+		printk("liuzixuan-shell > ");
 
 		uart_recv_str(input, sizeof(input));
 
-		uart_send_str("exec over \r\n");
+		int num = split(input, args);
+		if (num == 0) {
+			continue;
+		}
+		printk("cmd: %s\n", args[0]);
+		parse_command(args[0]);
+
 	}
 
 }

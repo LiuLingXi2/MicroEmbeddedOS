@@ -4,7 +4,7 @@
 
 #include <std/type.h>
 
-#define SSD_SIZE (128 * 1024) // 128KB
+#define SSD_SIZE (32 * (4 * 1024)) // 32 * 4KB = 128KB
 
 #define SSD_BLOCK_SIZE 4096 // block:  4KB
 

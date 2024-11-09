@@ -41,7 +41,7 @@ unsigned long alloc_page(void)
 		}
 		if (mem_map[i] == 0) {
 			mem_map[i] = 1;
-			// printk("%s: allocate page address: 0x%08lx\n", __FUNCTION__, LOW_MEMORY + i * PAGE_SIZE);
+			printk("%s: allocate page address: 0x%08lx\n", __FUNCTION__, LOW_MEMORY + i * PAGE_SIZE);
 			return LOW_MEMORY + i * PAGE_SIZE;
 		}
 	}

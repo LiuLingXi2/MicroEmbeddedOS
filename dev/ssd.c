@@ -22,6 +22,7 @@ void ssd_init(void)
     init_block_bitmap();
 
     printk("ssd_memory sram address: 0x%08lx\n", ssd_memory);
+    printk("ssd_memory end sram address: 0x%08lx\n", &ssd_memory[SSD_SIZE - 1]); // 0x1FFF
 }
 
 static void set_block_allocated(int block_num)

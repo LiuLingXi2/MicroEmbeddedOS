@@ -1,6 +1,3 @@
-/**
- * @brief Learn from: https://github.com/ArthurWu6688/my_string.h.git
- */
 
 #include <std/string.h>
 
@@ -91,6 +88,76 @@ char* strncpy(char *dest, const char *src, size_t n)
     
     return dest;
 }
+
+char* strcat(char* dest, const char* src)
+{
+    while (*dest != '\0') {
+        dest++;
+    }
+
+    while (*src != '\0') {
+        *dest = *src; 
+        dest++;
+        src++;
+    }
+
+    *dest = '\0';
+
+    return dest;
+}
+
+// char *strtok(char *str, const char *delim) {
+//     static char *s = NULL;  // 静态变量，记录当前字符串的位置
+//     char *start;
+
+//     // 如果 str 不是 NULL，说明是第一次调用或重新开始分割，更新静态变量 s
+//     if (str != NULL) {
+//         s = str;
+//     }
+
+//     // 如果 s 是 NULL，表示没有更多的字符可以分割
+//     if (s == NULL) {
+//         return NULL;
+//     }
+
+//     // 跳过前面的分隔符
+//     while (*s != '\0' && strchr(delim, *s)) {
+//         s++;  // 跳过分隔符
+//     }
+
+//     // 如果已经到达字符串末尾
+//     if (*s == '\0') {
+//         s = NULL;
+//         return NULL;
+//     }
+
+//     // 记录当前子字符串的起始位置
+//     start = s;
+
+//     // 寻找下一个分隔符，找到则替换为 '\0'，标记子字符串结束
+//     while (*s != '\0' && !strchr(delim, *s)) {
+//         s++;  // 移动指针，直到遇到分隔符或字符串末尾
+//     }
+
+//     // 如果遇到分隔符，将其替换为 '\0'
+//     if (*s != '\0') {
+//         *s = '\0';
+//         s++;  // 跳过分隔符
+//     }
+
+//     return start;  // 返回当前子字符串
+// }
+
+// // 查找字符是否在字符串中
+// int strchr(const char *s, char c) {
+//     while (*s != '\0') {
+//         if (*s == c) {
+//             return 1;  // 找到分隔符
+//         }
+//         s++;
+//     }
+//     return 0;  // 没有找到分隔符
+// }
 
 // char* strcpy(char* dest, const char* src) 
 // {
@@ -188,7 +255,7 @@ char* strncpy(char *dest, const char *src, size_t n)
 // 	return NULL;
 // }
 
-// char* strtok(char* str, char* sep) 
+// char* strtok(char* str, const char* sep) 
 // {
 // 	static char* start;
 // 	char* ptr = start;

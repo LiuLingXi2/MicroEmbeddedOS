@@ -1,4 +1,4 @@
-ARMGNU ?= aarch64-linux-gnu
+ARM64_PREFIX ?= aarch64-linux-gnu
 
 CFLAGS += -g
 CFLAGS += -Wall -Wno-unused -Wno-return-type 
@@ -14,21 +14,20 @@ OBJ = obj
 
 all: compile
 
-C_FILES = $(wildcard *.c)
-ASM_FILES = $(wildcard *.S)
+SRC_FILES = $(wildcard *.c *.S)
 
-OBJ_FILES = $(C_FILES:%.c=$(OBJ)/%_c.o)
-OBJ_FILES += $(ASM_FILES:%.S=$(OBJ)/%_s.o)
+OBJ_FILES = $(SRC_FILES:%.c=$(OBJ)/%.o) \
+			 $(SRC_FILES:%.S=$(OBJ)/%.o)
 
 compile: $(OBJ_FILES)
 
-$(OBJ)/%_c.o: %.c
+$(OBJ)/%.o: %.c
 	mkdir -p obj
-	$(ARMGNU)-gcc $(CFLAGS) $(INC_PATH) -c $< -o $@
+	$(ARM64_PREFIX)-gcc $(CFLAGS) $(INC_PATH) -c $< -o $@
 
-$(OBJ)/%_s.o: %.S
+$(OBJ)/%.o: %.S
 	mkdir -p obj
-	$(ARMGNU)-gcc $(CFLAGS) $(INC_PATH) -c $< -o $@
+	$(ARM64_PREFIX)-gcc $(CFLAGS) $(INC_PATH) -c $< -o $@
 
 clean:
 	rm -rf obj/

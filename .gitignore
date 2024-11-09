@@ -1,3 +1,4 @@
 build/
 *.o
 .vscode/
+build_log.txt

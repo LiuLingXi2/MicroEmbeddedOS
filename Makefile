@@ -43,7 +43,7 @@ clean :
 	$(MAKE) -C fs clean
 	$(MAKE) -C dev clean
 
-	rm -rf  $(BUILD_DIR)/* build.log
+	@rm -rf  $(BUILD_DIR)/* build_log.txt
 
 run:
 	qemu-system-aarch64 $(QEMU_FLAGS) -kernel $(BUILD_DIR)/$(PRO_NAME).bin

@@ -2,6 +2,8 @@
 #include <asm/sysreg.h>
 #include <mm/mm.h>
 
+.extern memzero
+
     .section ".text.boot"
 
 .global _start

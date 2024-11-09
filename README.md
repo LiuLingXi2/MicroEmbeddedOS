@@ -90,7 +90,7 @@ directory: fs/
 description: implement an ext2-like file system
 
 interface:
-- fs_create
+- ext2fs_create
 - fs_write
 - fs_read
 - fs_close

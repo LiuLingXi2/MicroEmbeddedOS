@@ -35,12 +35,6 @@
 #define MAIR(attr, mt)	((attr) << ((mt) * 8))
 
 
-#ifndef __ASSEMBLER__
-
-void memzero(unsigned long src, unsigned long n);
-
-#endif
-
 /* to align the pointer to the (next) page boundary */
 #define PAGE_ALIGN(addr) (((addr)+PAGE_SIZE-1)&PAGE_MASK)
 #define PAGE_ALIGN_UP(addr)  PAGE_ALIGN(addr)
