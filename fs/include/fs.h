@@ -2,8 +2,8 @@
 
 #define __INCLUDE_FS_H__
 
-#include "ssd.h"
-#include "inode.h"
+#include <ssd.h>
+#include <inode.h>
 
 #define MAX_INODES 1024
 

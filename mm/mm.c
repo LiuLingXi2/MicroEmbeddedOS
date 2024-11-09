@@ -1,5 +1,5 @@
-#include "mm/mm.h"
-#include "std/printk.h"
+#include <mm/mm.h>
+#include <std/printk.h>
 
 #define NR_PAGES (TOTAL_MEMORY / PAGE_SIZE)
 

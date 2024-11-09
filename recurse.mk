@@ -1,15 +1,18 @@
 ARMGNU ?= aarch64-linux-gnu
 
-COPS += -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include
-ASMOPS = -g -I../include -I../driver/include
+CFLAGS += -g
+CFLAGS += -Wall -Wno-unused -Wno-return-type 
+CFLAGS += -nostdlib -fno-builtin -mgeneral-regs-only
 
-COPS += -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy
-
-COPS += -Wno-unused -Wno-noreturn -Wno-return-type
+INC_PATH += -I../include \
+			-I../driver/include \
+			-I../fs/include \
+			-I../dev/include \
+			-I../driver/include \
 
 OBJ = obj
 
-all: compiler
+all: compile
 
 C_FILES = $(wildcard *.c)
 ASM_FILES = $(wildcard *.S)
@@ -17,15 +20,15 @@ ASM_FILES = $(wildcard *.S)
 OBJ_FILES = $(C_FILES:%.c=$(OBJ)/%_c.o)
 OBJ_FILES += $(ASM_FILES:%.S=$(OBJ)/%_s.o)
 
-compiler: $(OBJ_FILES)
+compile: $(OBJ_FILES)
 
 $(OBJ)/%_c.o: %.c
 	mkdir -p obj
-	$(ARMGNU)-gcc $(COPS) -c $< -o $@
+	$(ARMGNU)-gcc $(CFLAGS) $(INC_PATH) -c $< -o $@
 
 $(OBJ)/%_s.o: %.S
 	mkdir -p obj
-	$(ARMGNU)-gcc $(ASMOPS) -c $< -o $@
+	$(ARMGNU)-gcc $(CFLAGS) $(INC_PATH) -c $< -o $@
 
 clean:
 	rm -rf obj/

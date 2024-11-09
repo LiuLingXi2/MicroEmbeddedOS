@@ -1,27 +1,23 @@
 
-#include "pl_uart.h"
-#include "std/printk.h"
-#include "gic.h"
-#include "irq.h"
-#include "timer.h"
-#include "io.h"
-#include "ssd.h"
-#include "fs.h"
-#include "test/test.h"
-#include "mm/mm.h"
-#include "mm/mmu.h"
-#include "asm/system.h"
-#include "proc/sche.h"
+#include <pl_uart.h>
+#include <std/printk.h>
+#include <gic.h>
+#include <irq.h>
+#include <timer.h>
+#include <io.h>
+#include <ssd.h>
+#include <fs.h>
+#include <test/test.h>
+#include <mm/mm.h>
+#include <mm/mmu.h>
+#include <asm/system.h>
+#include <proc/sche.h>
 
 extern char _text_boot[], _etext_boot[];
 extern char _text[], _etext[];
 extern char _rodata[], _erodata[];
 extern char _data[], _edata[];
 extern char _bss[], _ebss[];
-
-void kernel_thread1(void) __attribute__((noreturn));
-void kernel_thread2(void) __attribute__((noreturn));
-void kernel_thread3(void) __attribute__((noreturn));
 
 
 static void pmem_layout(void)
@@ -97,17 +93,17 @@ void uart_recv_str(char *buffer, int length) {
     char c;
     while (i < length - 1) {
         c = uart_recv();
-        uart_send(c);  // 实时回显输入字符
+        uart_send(c);
 
-        if (c == '\n' || c == '\r') {  // 检测到换行或回车，结束输入
-            uart_send('\r');           // 发送 '\r' 让光标回到行首
-            uart_send('\n');           // 换行
+        if (c == '\n' || c == '\r') {
+            uart_send('\r');
+            uart_send('\n');
             break;
         }
 
         buffer[i++] = c;
     }
-    buffer[i] = '\0';  // 以 null 字符结束字符串
+    buffer[i] = '\0';
 }
 
 void uart_send_str(const char *str) {

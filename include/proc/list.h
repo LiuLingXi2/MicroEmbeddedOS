@@ -2,7 +2,7 @@
 
 #define __INCLUDE_LIST_H__
 
-#include "std/type.h"
+#include <std/type.h>
 
 struct list_head {
 	struct list_head *next, *prev;

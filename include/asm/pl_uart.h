@@ -1,7 +1,7 @@
 #ifndef	_P_UART_H
 #define	_P_UART_H
 
-#include "base.h"
+#include <asm/base.h>
 
 #define U_BASE       (PBASE+0x00201000)
 

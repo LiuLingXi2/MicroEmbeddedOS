@@ -1,5 +1,5 @@
-#include "asm/syscall.h"
-#include "irq.h"
+#include <asm/syscall.h>
+#include <irq.h>
 
 long __arm64_sys_open(struct pt_regs *regs)
 {

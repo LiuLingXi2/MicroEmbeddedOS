@@ -2,7 +2,7 @@
 
 #define __ASM_SYSCALL_H__
 
-#include "irq.h"
+#include <irq.h>
 
 #define __NR_open     0
 #define __NR_close    1

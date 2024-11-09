@@ -1,7 +1,7 @@
-#include "proc/sche.h"
-#include "proc/queue.h"
-#include "std/printk.h"
-#include "irq.h"
+#include <proc/sche.h>
+#include <proc/queue.h>
+#include <std/printk.h>
+#include <irq.h>
 
 static void dequeue_task_kernel(struct run_queue *rq, struct task_struct *p)
 {

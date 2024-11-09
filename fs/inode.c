@@ -1,7 +1,7 @@
-#include "std/type.h"
-#include "inode.h"
-#include "fs.h"
-#include "std/string.h"
+#include <std/type.h>
+#include <inode.h>
+#include <fs.h>
+#include <std/string.h>
 
 int create_inode(int type, const char* name)
 {

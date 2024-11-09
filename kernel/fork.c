@@ -1,9 +1,9 @@
-#include "proc/sche.h"
-#include "mm/mmu.h"
-#include "std/printk.h"
-#include "irq.h"
-#include "std/memset.h"
-#include "asm/system.h"
+#include <proc/sche.h>
+#include <mm/mmu.h>
+#include <std/printk.h>
+#include <irq.h>
+#include <std/memset.h>
+#include <asm/system.h>
 
 #define NR_TASK 128
 

@@ -1,9 +1,9 @@
 
 
 
-#include "ssd.h"
-#include "std/printk.h"
-#include "std/memset.h"
+#include <ssd.h>
+#include <std/printk.h>
+#include <std/memset.h>
 
 unsigned char ssd_memory[SSD_SIZE] = {'\0'};
 

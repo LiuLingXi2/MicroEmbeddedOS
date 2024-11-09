@@ -1,5 +1,5 @@
-#include "irq.h"
-#include "gic.h"
+#include <irq.h>
+#include <gic.h>
 
 void irq_handle(void)
 {

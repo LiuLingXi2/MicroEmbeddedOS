@@ -1,10 +1,10 @@
 #ifndef ASM_PGTABLE_H
 #define ASM_PGTABLE_H
 
-#include "mm/mm.h"
-#include "mm/pgtable_prot.h"
-#include "mm/pgtable_types.h"
-#include "proc/automic.h"
+#include <mm/mm.h>
+#include <mm/pgtable_prot.h>
+#include <mm/pgtable_types.h>
+#include <proc/automic.h>
 
 #define pgd_index(addr) (((addr) >> PGDIR_SHIFT) & (PTRS_PER_PGD - 1))
 

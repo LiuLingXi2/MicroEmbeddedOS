@@ -1,7 +1,7 @@
-#include "proc/sche.h"
-#include "proc/queue.h"
-#include "std/printk.h"
-#include "irq.h"
+#include <proc/sche.h>
+#include <proc/queue.h>
+#include <std/printk.h>
+#include <irq.h>
 
 struct run_queue g_rq;
 
@@ -156,8 +156,9 @@ void sched_init(void)
 /**
  * @brief actively exit, set it to TASK_STOPPED, and schedule it again
  */
-void exit(int n)
+int exit(int n)
 {
 	current->state = TASK_STOPPED;
 	schedule();
+	return 0;
 }

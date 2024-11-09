@@ -1,12 +1,12 @@
-#include "mm/pgtable_types.h"
-#include "mm/pgtable.h"
-#include "asm/base.h"
-#include "asm/sysreg.h"
-#include  "mm/mmu.h"
-#include "io.h"
-#include "mm/mm.h"
-#include "std/printk.h"
-#include "std/memset.h"
+#include <mm/pgtable_types.h>
+#include <mm/pgtable.h>
+#include <asm/base.h>
+#include <asm/sysreg.h>
+#include <mm/mmu.h>
+#include <io.h>
+#include <mm/mm.h>
+#include <std/printk.h>
+#include <std/memset.h>
 
 #define NO_BLOCK_MAPPINGS BIT(0)
 #define NO_CONT_MAPPINGS BIT(1)

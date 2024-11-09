@@ -1,7 +1,7 @@
 #ifndef __INCLUDE_TIMER_H__
 #define __INCLUDE_TIMER_H__
 
-#include "asm/base.h"
+#include <asm/base.h>
 
 /* System Timer on PI */
 #define TIMER_CS        (PBASE + 0x00003000)

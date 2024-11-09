@@ -2,7 +2,7 @@
 
 #define __INCLUDE_SSD_H__
 
-#include "std/type.h"
+#include <std/type.h>
 
 #define SSD_SIZE (128 * 1024) // 128KB
 

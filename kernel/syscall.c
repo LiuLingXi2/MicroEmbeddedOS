@@ -1,6 +1,6 @@
-#include "asm/syscall.h"
-#include "irq.h"
-#include "syscall_arm64.h"
+#include <asm/syscall.h>
+#include <irq.h>
+#include <asm/syscall_arm64.h>
 
 typedef long (*syscall_fn_t)(struct pt_regs *regs);
 

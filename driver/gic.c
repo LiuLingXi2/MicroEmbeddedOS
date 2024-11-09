@@ -1,8 +1,8 @@
-#include "gic.h"
-#include "irq.h"
-#include "std/printk.h"
-#include "io.h"
-#include "timer.h"
+#include <gic.h>
+#include <irq.h>
+#include <std/printk.h>
+#include <io.h>
+#include <timer.h>
 
 #define ARM_GIC_MAX_NR 1
 

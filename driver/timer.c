@@ -1,9 +1,9 @@
-#include "irq.h"
-#include "io.h"
-#include "gic.h"
-#include "std/printk.h"
-#include "timer.h"
-#include "proc/sche.h"
+#include <irq.h>
+#include <io.h>
+#include <gic.h>
+#include <std/printk.h>
+#include <timer.h>
+#include <proc/sche.h>
 
 #define HZ 5
 #define NSEC_PER_SEC    1000000000L

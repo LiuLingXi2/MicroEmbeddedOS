@@ -1,4 +1,4 @@
-#include "std/printk.h"
+#include <std/printk.h>
 
 void set_genelal_reg(const char *reg)
 {

@@ -2,9 +2,9 @@
 
 #define __INCLUDE_ASM_QUEUE_H__
 
-#include "proc/sche.h"
-#include "std/type.h"
-#include "proc/list.h"
+#include <proc/sche.h>
+#include <std/type.h>
+#include <proc/list.h>
 
 struct run_queue {
 	struct list_head rq_head;

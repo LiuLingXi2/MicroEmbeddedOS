@@ -30,6 +30,7 @@ compile_o:
 compile_b: $(LD_DIR)/alinker.ld
 	$(ARMGNU)-ld -T $< -Map $(BUILD_DIR)/$(PRO_NAME).map -o $(BUILD_DIR)/$(PRO_NAME).elf $(OBJS)
 	$(ARMGNU)-objcopy $(BUILD_DIR)/$(PRO_NAME).elf -O binary $(BUILD_DIR)/$(PRO_NAME).bin
+	@echo "done"
 
 clean :
 	$(MAKE) -C test clean
@@ -42,7 +43,7 @@ clean :
 	$(MAKE) -C fs clean
 	$(MAKE) -C dev clean
 
-	rm -rf  $(BUILD_DIR)/*
+	rm -rf  $(BUILD_DIR)/* build.log
 
 run:
 	qemu-system-aarch64 $(QEMU_FLAGS) -kernel $(BUILD_DIR)/$(PRO_NAME).bin

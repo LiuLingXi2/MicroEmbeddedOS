@@ -2,9 +2,9 @@
 
 #define __INCLUDE_SCHE_H__
 
-#include "mm/mm.h"
-#include "proc/list.h"
-#include "proc/queue.h"
+#include <mm/mm.h>
+#include <proc/list.h>
+#include <proc/queue.h>
 
 #define THREAD_SIZE  (1 * PAGE_SIZE)
 #define THREAD_START_SP (THREAD_SIZE - 8)
@@ -122,7 +122,7 @@ static inline struct task_struct *get_current(void)
 
 void sched_init(void);
 void schedule(void);
-void exit(int n) __attribute__((noreturn));
+int exit(int n);
 struct task_struct * switch_to(struct task_struct *prev, struct task_struct *next);
 
 void dequeue_task(struct run_queue *rq, struct task_struct *p);

@@ -2,7 +2,7 @@
 
 > Some things, only to do their own, will feel something
 
-## 内核信息
+## kernel infomation
 
 PBASE: address of peripheral
 

@@ -2,7 +2,7 @@
  * @brief Learn from: https://github.com/ArthurWu6688/my_string.h.git
  */
 
-#include "std/string.h"
+#include <std/string.h>
 
 // #define NULL ((void *)0)
 

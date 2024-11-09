@@ -1,7 +1,7 @@
 #ifndef ASM_PGTABLE_PROT_H
 #define ASM_PGTABLE_PROT_H
 
-#include "mm/mm.h"
+#include <mm/mm.h>
 
 /* PGD */
 #define PGDIR_SHIFT 39

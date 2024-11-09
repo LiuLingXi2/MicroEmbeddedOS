@@ -1,5 +1,5 @@
 #include <stdarg.h>
-#include "../include/pl_uart.h"
+#include <../include/pl_uart.h>
 #include <string.h>
 
 #define CONSOLE_PRINT_BUFFER_SIZE 1024
