@@ -1,41 +1,45 @@
-// #include "std/type.h"
+#include "std/type.h"
+#include "inode.h"
+#include "fs.h"
+#include "std/string.h"
 
-// typedef struct inode {
-//     char name[32];
-//     int is_dir;
-//     char content[1024];
-//     struct inode *parent;
-//     struct inode *child;
-//     struct inode  *sibling;
-// } inode;
+int create_inode(int type, const char* name)
+{
+    for (int i = 0; i < MAX_INODES; i++) {
+        if (inode_table[i].id == 0) {
+            inode_table[i].id = i + 1;
+            inode_table[i].size = 0;
+            inode_table[i].type = type;
+            strncpy(inode_table[i].name, name, 32);
+            return i + 1;
+        }
+    }
+    return -1;
+}
 
-// static char *my_strncpy(char *dest, const char *src, size_t n) {
-//     size_t i;
+int add_inode_to_directory(INode* dir, INode* inode)
+{
+    for (int i = 0; i < MAX_INODE_ENTRIES; i++) {
+        if (dir->entries[i] == NULL) {
+            dir->entries[i] = inode;
+            return 0;
+        }
+    }
+    return -1;
+}
 
-//     // 逐字符复制，直到达到 n 或 src 结束
-//     for (i = 0; i < n && src[i] != '\0'; i++) {
-//         dest[i] = src[i];
-//     }
+INode* find_inode_by_name(INode *parent, const char *name)
+{
+    if ((parent == NULL) || (name == NULL)) {
+        return NULL;
+    }
 
-//     // 如果 src 的长度小于 n，用 '\0' 填充 dest 的剩余空间
-//     for (; i < n; i++) {
-//         dest[i] = '\0';
-//     }
+    for (int i = 0; i < MAX_INODE_ENTRIES; i++) {
+        INode* entry = parent->entries[i];
+        if (entry != NULL && strncmp(entry->name, name, 32) == 0) {
+            return entry;
+        }
+    }
 
-//     return dest;
-// }
-
-// inode* create_node(const char* name, int is_directory, inode* parent) {
-//     inode* node = (inode*)malloc(sizeof(inode));
-//    strncpy(node->name, name, 32);
-//     node->is_dir = is_directory;
-//     node->parent = parent;
-//     node->child = NULL;
-//     node->sibling = NULL;
-//     return node;
-// }
-
-// inode* init_fs()
-// {
-//     return create_node("/", 1, NULL);
-// }
+    return NULL;
+}

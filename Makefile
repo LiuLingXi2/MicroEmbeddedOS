@@ -25,6 +25,7 @@ compile_o:
 	$(MAKE) -C std
 	$(MAKE) -C arch
 	$(MAKE) -C fs
+	$(MAKE) -C dev
 
 compile_b: $(LD_DIR)/alinker.ld
 	$(ARMGNU)-ld -T $< -Map $(BUILD_DIR)/$(PRO_NAME).map -o $(BUILD_DIR)/$(PRO_NAME).elf $(OBJS)
@@ -39,6 +40,7 @@ clean :
 	$(MAKE) -C std clean
 	$(MAKE) -C arch clean
 	$(MAKE) -C fs clean
+	$(MAKE) -C dev clean
 
 	rm -rf  $(BUILD_DIR)/*
 

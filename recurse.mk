@@ -1,9 +1,11 @@
 ARMGNU ?= aarch64-linux-gnu
 
-COPS += -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include
+COPS += -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include
 ASMOPS = -g -I../include -I../driver/include
 
-COPS += -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset
+COPS += -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy
+
+COPS += -Wno-unused -Wno-noreturn -Wno-return-type
 
 OBJ = obj
 

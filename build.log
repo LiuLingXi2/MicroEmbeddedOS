@@ -1,0 +1,83 @@
+make -C test
+make[1]: Entering directory '/home/ubuntu/aarch_test/test'
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c arm_test.c -o obj/arm_test_c.o
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c mmu_test.c -o obj/mmu_test_c.o
+make[1]: Leaving directory '/home/ubuntu/aarch_test/test'
+make -C boot
+make[1]: Entering directory '/home/ubuntu/aarch_test/boot'
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -I../include -I../driver/include -c entry.S -o obj/entry_s.o
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -I../include -I../driver/include -c boot.S -o obj/boot_s.o
+make[1]: Leaving directory '/home/ubuntu/aarch_test/boot'
+make -C kernel
+make[1]: Entering directory '/home/ubuntu/aarch_test/kernel'
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c syscall.c -o obj/syscall_c.o
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c sche.c -o obj/sche_c.o
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c init.c -o obj/init_c.o
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c kernel_sche.c -o obj/kernel_sche_c.o
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c fork.c -o obj/fork_c.o
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -I../include -I../driver/include -c switch.S -o obj/switch_s.o
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -I../include -I../driver/include -c syscall.S -o obj/syscall_s.o
+make[1]: Leaving directory '/home/ubuntu/aarch_test/kernel'
+make -C mm
+make[1]: Entering directory '/home/ubuntu/aarch_test/mm'
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c mm.c -o obj/mm_c.o
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c pgtable.c -o obj/pgtable_c.o
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c buddy.c -o obj/buddy_c.o
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -I../include -I../driver/include -c mm.S -o obj/mm_s.o
+make[1]: Leaving directory '/home/ubuntu/aarch_test/mm'
+make -C driver
+make[1]: Entering directory '/home/ubuntu/aarch_test/driver'
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c irq.c -o obj/irq_c.o
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c pl_uart.c -o obj/pl_uart_c.o
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c gic.c -o obj/gic_c.o
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c timer.c -o obj/timer_c.o
+make[1]: Leaving directory '/home/ubuntu/aarch_test/driver'
+make -C std
+make[1]: Entering directory '/home/ubuntu/aarch_test/std'
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c printk.c -o obj/printk_c.o
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c string.c -o obj/string_c.o
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c memset.c -o obj/memset_c.o
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -I../include -I../driver/include -c memset_asm.S -o obj/memset_asm_s.o
+make[1]: Leaving directory '/home/ubuntu/aarch_test/std'
+make -C arch
+make[1]: Entering directory '/home/ubuntu/aarch_test/arch'
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c syscall_arm64.c -o obj/syscall_arm64_c.o
+make[1]: Leaving directory '/home/ubuntu/aarch_test/arch'
+make -C fs
+make[1]: Entering directory '/home/ubuntu/aarch_test/fs'
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c inode.c -o obj/inode_c.o
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c fs.c -o obj/fs_c.o
+make[1]: Leaving directory '/home/ubuntu/aarch_test/fs'
+make -C dev
+make[1]: Entering directory '/home/ubuntu/aarch_test/dev'
+mkdir -p obj
+aarch64-linux-gnu-gcc -g -Wall -nostdlib -I../include -I../driver/include -I../arch -mgeneral-regs-only -I../fs/include -I../dev/include -fno-builtin-strlen -fno-builtin-memcpy -fno-builtin-putchar -fno-builtin-memset -fno-builtin-strcpy -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strncpy -Wno-unused -Wno-noreturn -Wno-return-type -c ssd.c -o obj/ssd_c.o
+make[1]: Leaving directory '/home/ubuntu/aarch_test/dev'
+aarch64-linux-gnu-ld -T boot/alinker.ld -Map build/ma_a.map -o build/ma_a.elf ./kernel/obj/fork_c.o ./kernel/obj/switch_s.o ./kernel/obj/syscall_s.o ./kernel/obj/syscall_c.o ./kernel/obj/kernel_sche_c.o ./kernel/obj/init_c.o ./kernel/obj/sche_c.o ./std/obj/memset_c.o ./std/obj/printk_c.o ./std/obj/memset_asm_s.o ./std/obj/string_c.o ./boot/obj/boot_s.o ./boot/obj/entry_s.o ./dev/obj/ssd_c.o ./fs/obj/fs_c.o ./fs/obj/inode_c.o ./driver/obj/pl_uart_c.o ./driver/obj/gic_c.o ./driver/obj/timer_c.o ./driver/obj/irq_c.o ./mm/obj/mm_s.o ./mm/obj/pgtable_c.o ./mm/obj/buddy_c.o ./mm/obj/mm_c.o ./arch/obj/syscall_arm64_c.o ./test/obj/arm_test_c.o ./test/obj/mmu_test_c.o
+aarch64-linux-gnu-objcopy build/ma_a.elf -O binary build/ma_a.bin

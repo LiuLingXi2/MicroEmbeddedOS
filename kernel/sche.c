@@ -72,7 +72,7 @@ static void clear_task_resched(struct task_struct *p)
 
 static void __schedule(void)
 {
-	struct task_struct *prev, *next, *last;
+	struct task_struct *prev, *next;
 	struct run_queue *rq = &g_rq;
 	prev = current;
 	ret_task = prev;

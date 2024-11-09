@@ -5,6 +5,8 @@
 #include "irq.h"
 #include "timer.h"
 #include "io.h"
+#include "ssd.h"
+#include "fs.h"
 #include "test/test.h"
 #include "mm/mm.h"
 #include "mm/mmu.h"
@@ -16,6 +18,11 @@ extern char _text[], _etext[];
 extern char _rodata[], _erodata[];
 extern char _data[], _edata[];
 extern char _bss[], _ebss[];
+
+void kernel_thread1(void) __attribute__((noreturn));
+void kernel_thread2(void) __attribute__((noreturn));
+void kernel_thread3(void) __attribute__((noreturn));
+
 
 static void pmem_layout(void)
 {
@@ -166,13 +173,16 @@ void kernel_main(void)
 
 	char input[1024];
 
+	ssd_init();
+
+	fs_init();
+
 	while (1) {
 		uart_send_str("liuzixuan-shell> ");
 
 		uart_recv_str(input, sizeof(input));
 
 		uart_send_str("exec over \r\n");
-
 	}
 
 }
