@@ -1,28 +1,28 @@
 # MicroEmbeddedOS
 
-> 有些事情，只有自己去做了，才会去感知一些东西
+> Some things, only to do their own, will feel something
 
 ## 内核信息
 
-PBASE：外设地址
+PBASE: address of peripheral
 
 ```c
 #define PBASE 0xFE000000
 ```
 
-GIC_BASE_ADDR：GIC地址
+GIC_BASE_ADDR：address of GIC
 
 ```c
 #define GIC_BASE_ADDR (0xFF840000)
 ```
 
-内核加载地址
+address of kernel loading
 
 ```shell
 	. = 0x80000, 
 ```
 
-## 运行内核
+## kernel
 
 ```shell
 make clean
@@ -30,7 +30,7 @@ make
 make run
 ```
 
-debug状态
+debug
 
 ```shell
 make debug
@@ -40,7 +40,7 @@ make debug
 bash gdb.sh
 ```
 
-运行效果
+running goal
 
 ```shell
 qemu-system-aarch64 -machine raspi4b1g -nographic -kernel build/aarch_test.bin
@@ -66,39 +66,44 @@ Bad mode for Sync Abort handler detected, far:0x20001000 esr:0x96000046
 gic_init [ cpu_base:0xff842000, dist_base:0xff841000, gic_irqs:160 ]
 ```
 
-进程调度（默认采用抢占式优先级调度算法）
+### process manage
 
-pid 1 (priority 10)-> pid 3 (priority 5) -> pid 2 (priority 3)
+directory: kernel/
 
-process running sequence:
+description: preemptive switching with priority based scheduling policy (clock interrupt based)
 
-```shell
-pick_next_task_kernel: pick next thread (pid 1)
-kernel_thread1: 10
-pick_next_task_kernel: pick next thread (pid 3)
-kernel_thread3: 3
-kernel_thread3: 3
-pick_next_task_kernel: pick next thread (pid 2)
-kernel_thread2: 5
-Core0 Local Timer interrupt received
-current pid: 2
-pick_next_task_kernel: pick next thread (pid 2)
-kernel_thread2: 5
-kernel_thread2: 5
-kernel_thread2: 5
-Core0 Local Timer interrupt received
-current pid: 2
-BUG: preempt_schedule_irq incorrect preempt count: 0x1
-BUG: scheduling while atomic: 2, 0x2
-pick_next_task_kernel: pick next thread (pid 2)
-kernel_thread2: 5
-kernel_thread2: 5
-```
 
-当前进度和计划
+### virtual ssd
 
-- 日志系统 ×
-- 目录规整 √
-- 进程管理 --->>>
-- shell实现 ×
-- 驱动实现 --->>>
+directory: dev/
+
+description: the maximum capacity is 128KB, and each data block is read and written with a size of 4KB
+
+interface
+- ssd_read_block
+- ssd_write_block
+
+### file system
+
+directory: fs/
+
+description: implement an ext2-like file system
+
+interface:
+- fs_create
+- fs_write
+- fs_read
+- fs_close
+
+### mlog subsystem
+
+directory: mlog/
+
+
+expected subsystem plan
+
+- mlog subsystem ×
+- directory tidy √
+- process manage --->>>
+- shell implement ×
+- driver manage --->>>
