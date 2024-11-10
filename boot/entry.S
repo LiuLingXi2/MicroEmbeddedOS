@@ -31,7 +31,7 @@
 #define BAD_FIQ         2
 #define BAD_ERROR       3
 
-kernel_entry:
+	.macro kernel_entry
 	sub sp, sp, #S_FRAME_SIZE
 
 	stp x0, x1, [sp, #16 *0]
@@ -58,9 +58,9 @@ kernel_entry:
 	stp     lr, x21, [sp, #S_LR]
 	stp     x22, x23, [sp, #S_PC]
 
-	ret
+	.endm
 
-kernel_exit:
+	.macro kernel_exit
 	ldp     x21, x22, [sp, #S_PC]           // load ELR, SPSR
 
 	msr     elr_el1, x21                    // set up the return data
@@ -84,9 +84,8 @@ kernel_exit:
 	ldr     lr, [sp, #S_LR]
 	add     sp, sp, #S_FRAME_SIZE           // restore sp
 
-	ldr x30, [sp], 8
 	eret
-	ret
+	.endm
 
 scheduler1:
 	b schedule
@@ -184,10 +183,11 @@ el1_preempt:
 
 .global ret_to_user
 ret_to_user:
-    inv_entry 0, BAD_ERROR
+	kernel_exit
+	ret
 
 el0_sync:
-	bl kernel_entry
+	kernel_entry
 	mrs x25, esr_el1
 	lsr x24, x25, #0x3F // EC
 	mov x26, #0x15 // 0x15: 64 syscall

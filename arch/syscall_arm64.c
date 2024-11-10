@@ -34,6 +34,6 @@ long __arm64_sys_malloc(struct pt_regs *regs)
 
 long __arm64_sys_chdir(struct pt_regs *regs)
 {
-    printk(GREEN"%s\n" NONE);
+    printk(GREEN"hello world!2222\n" NONE);
     return 0;
 }

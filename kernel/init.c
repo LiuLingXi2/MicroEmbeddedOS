@@ -12,9 +12,11 @@
 #include <mm/mm.h>
 #include <mm/mmu.h>
 #include <asm/system.h>
+#include <asm/user.h>
 #include <proc/sche.h>
 #include <ext2fs.h>
 #include <std/string.h>
+#include <asm/msyscall.h>
 
 extern char _text_boot[], _etext_boot[];
 extern char _text[], _etext[];
@@ -64,16 +66,23 @@ void bad_mode(struct pt_regs *regs, int reason, unsigned int esr)
 			esr);
 }
 
-void kernel_thread1(void)
+void thread_user_init(void)
 {
-	// while (1) {
-	// 	delay(50000000);
-		printk("%s: %s\n", __func__, "10");
-	// }
+	unsigned long el0_sp = alloc_page();
+	ret_user(el0_sp);
 	exit(1);
 }
 
-void kernel_thread2(void)
+void while_user(void)
+{
+	(void)chdir("/");
+	while (1) {
+		delay(50000000);
+		printk("Hello World!\n");
+	}
+}
+
+void kernel_thread_create(void)
 {
 	while (1) {
 		delay(500000000);
@@ -158,26 +167,27 @@ void kernel_main(void)
 	
 	mem_init((unsigned long)_ebss, TOTAL_MEMORY);
 	sched_init();
-	setup_arch();
+	// setup_arch();
 
 	int pid;
-	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread1, 0, 10);
+	// create a kernel thread with pid=1, and it will switch directly back to user mode
+	pid = do_fork(PF_KTHREAD, (unsigned long)&thread_user_init, 0, 10);
+	if (pid < 0) {
+		printk("create thread fail\n");
+	}
+	// create a kernel thread whose pid=2 is the father of all kernel threads
+	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread_create, 0, 2);
 	if (pid < 0) {
 		printk("create thread fail\n");
 	}
 
-	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread2, 0, 2);
-	if (pid < 0) {
-		printk("create thread fail\n");
-	}
+	// pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread3, 0, 3);
+	// if (pid < 0) {
+	// 	printk("create thread fail\n");
+	// }
 
-	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread3, 0, 3);
-	if (pid < 0) {
-		printk("create thread fail\n");
-	}
-
-	test_access_map_address();
-	test_access_unmap_address();
+	// test_access_map_address();
+	// test_access_unmap_address();
 
 	gic_init(0, GIC_DISPATCH, GIC_CPU);
 
@@ -185,9 +195,9 @@ void kernel_main(void)
 
 	// system_timer_init();
 
-	raw_local_irq_enable(); // sti
+	// raw_local_irq_enable(); // sti
 
-	// schedule();
+	schedule();
 
 	ssd_init();
 	fs_init();
