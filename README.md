@@ -2,6 +2,10 @@
 
 > Some things, only to do their own, will feel something
 
+基于raspi4b bcm2711 cortex-A72平台的微型嵌入式操作系统，简单的实现了内存管理、进程管理、文件管理、设备管理
+
+同时还实现了虚拟文件系统、虚拟内存、系统调用、中断调用以及日志系统
+
 ## kernel infomation
 
 PBASE: address of peripheral
