@@ -46,7 +46,7 @@ static struct task_struct *pick_next_task_kernel(struct run_queue *rq, struct ta
 	int c;
 
 	if (rq->nr_running == 0U) {
-		printk("idle-----------\n");
+		// printk("idle-----------\n");
 		return &init_task_union.task;
 	}
 repeat:

@@ -4,6 +4,7 @@
 #include <ext2fs.h>
 #include <std/string.h>
 #include <std/printk.h>
+#include <asm/msyscall.h>
 
 static char full_path[32] = {"\0"};
 
@@ -47,7 +48,7 @@ static void mkdir(void)
     (void)sys_create(current_inode, arg, DIR_T);
 }
 
-static void cd(void)
+static void user_chdir(void)
 {
     for (int i = 0; i < MAX_INODE_ENTRIES; i ++) {
         if (current_inode->entries[i] != NULL) {
@@ -58,9 +59,15 @@ static void cd(void)
     }
 }
 
+static void touch(void)
+{
+
+}
+
 struct cmd_t built_in_cmds[] = {
     {.cmd_str = "pwd", .cmd_func = pwd},
     {.cmd_str = "ls", .cmd_func = ls},
     {.cmd_str = "mkdir", .cmd_func = mkdir},
-    {.cmd_str = "cd", .cmd_func = cd},
+    {.cmd_str = "cd", .cmd_func = user_chdir},
+    {.cmd_str = "touch", .cmd_func = touch},
 };

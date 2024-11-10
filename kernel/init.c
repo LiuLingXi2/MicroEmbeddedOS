@@ -76,7 +76,7 @@ void kernel_thread1(void)
 void kernel_thread2(void)
 {
 	while (1) {
-		delay(50000000);
+		delay(500000000);
 		printk("%s: %s\n", __func__, "5");
 	}
 	exit(1);
@@ -84,10 +84,10 @@ void kernel_thread2(void)
 
 void kernel_thread3(void)
 {
-	for (int i = 0; i < 2; i ++) {
-		delay(50000000);
+	// for (int i = 0; i < 2; i ++) {
+	// 	delay(50000000);
 		printk("%s: %s\n", __func__, "3");
-	}
+	// }
 	exit(1);
 }
 
@@ -160,28 +160,28 @@ void kernel_main(void)
 	sched_init();
 	setup_arch();
 
-	// int pid;
-	// pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread1, 0, 10);
-	// if (pid < 0) {
-	// 	printk("create thread fail\n");
-	// }
+	int pid;
+	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread1, 0, 10);
+	if (pid < 0) {
+		printk("create thread fail\n");
+	}
 
-	// pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread2, 0, 2);
-	// if (pid < 0) {
-	// 	printk("create thread fail\n");
-	// }
+	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread2, 0, 2);
+	if (pid < 0) {
+		printk("create thread fail\n");
+	}
 
-	// pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread3, 0, 3);
-	// if (pid < 0) {
-	// 	printk("create thread fail\n");
-	// }
+	pid = do_fork(PF_KTHREAD, (unsigned long)&kernel_thread3, 0, 3);
+	if (pid < 0) {
+		printk("create thread fail\n");
+	}
 
 	test_access_map_address();
 	test_access_unmap_address();
 
-	// gic_init(0, GIC_DISPATCH, GIC_CPU);
+	gic_init(0, GIC_DISPATCH, GIC_CPU);
 
-	// local_timer_init();
+	local_timer_init();
 
 	// system_timer_init();
 

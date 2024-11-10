@@ -7,5 +7,6 @@ long __arm64_sys_read(struct pt_regs *regs);
 long __arm64_sys_write(struct pt_regs *regs);
 long __arm64_sys_malloc(struct pt_regs *regs);
 long __arm64_sys_clone(struct pt_regs *regs);
+long __arm64_sys_chdir(struct pt_regs *regs);
 
 #endif //!__ARCH_SYSCALL_H__

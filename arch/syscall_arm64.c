@@ -1,5 +1,6 @@
-#include <asm/syscall.h>
+#include <asm/msyscall.h>
 #include <irq.h>
+#include <std/printk.h>
 
 long __arm64_sys_open(struct pt_regs *regs)
 {
@@ -28,5 +29,11 @@ long __arm64_sys_clone(struct pt_regs *regs)
 
 long __arm64_sys_malloc(struct pt_regs *regs)
 {
+    return 0;
+}
+
+long __arm64_sys_chdir(struct pt_regs *regs)
+{
+    printk(GREEN"%s\n" NONE);
     return 0;
 }

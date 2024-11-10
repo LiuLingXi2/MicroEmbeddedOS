@@ -8,5 +8,5 @@ syscall:
     mov x4, x5
     mov x5, x6
     mov x6, x7
-    svc 0x0
+    svc 0x0  // 
     ret

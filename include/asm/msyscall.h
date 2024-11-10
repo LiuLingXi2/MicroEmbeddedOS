@@ -10,13 +10,17 @@
 #define __NR_write    3
 #define __NR_clone    4
 #define __NR_malloc   5
-#define __NR_syscalls 6
+#define __NR_chdir    6  // there is no need to save the context at this point
+#define __NR_syscalls 7
 
 unsigned long open(const char *file_name, int flags);
+int chdir(const char *path);
 
 void el0_svc_handle(struct pt_regs *regs);
 
 extern int syscall(int num, ...);
+
 long sys_open(const char *reg0, int reg1);
+int sys_chdir(const char *reg0);
 
 #endif //!__ASM_SYSCALL_H__
