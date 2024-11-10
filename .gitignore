@@ -2,3 +2,4 @@ build/
 *.o
 .vscode/
 build_log.txt
+.vscode-ctags

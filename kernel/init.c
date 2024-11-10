@@ -116,9 +116,25 @@ void uart_send_str(const char *str) {
     }
 }
 
-void parse_cmd()
-{
+static char current_full_path[32] = {"\0"};
 
+void get_path(INode *inode)
+{
+	char cur_path[32] = {"\0"};
+	char tmp_path[32] = {"\0"};
+    while (inode != NULL) {
+        if (inode->parent != NULL) {
+            strcpy(tmp_path, "/");
+            strcat(tmp_path, inode->name);
+			strcat(tmp_path, cur_path);
+			strcpy(cur_path, tmp_path);
+        } else { // root
+			strcat(tmp_path, "/");
+			break;
+		}
+        inode = inode->parent;
+    }
+	strcpy(current_full_path, tmp_path);
 }
 
 void kernel_main(void)
@@ -177,17 +193,18 @@ void kernel_main(void)
 	fs_init();
 
 	while (1) {
-		printk("liuzixuan-shell > ");
+		get_path(current_inode);
+		printk("liuzixuan-shell %s> ", current_full_path);
 
 		uart_recv_str(input, sizeof(input));
 
-		int num = split(input, args);
+		int num = split_cmd(input, args);
+		strcpy(current_full_path, "");
 		if (num == 0) {
 			continue;
 		}
-		printk("cmd: %s\n", args[0]);
+		printk("cmd: %s\n", input);
 		parse_command(args[0]);
-
 	}
 
 }

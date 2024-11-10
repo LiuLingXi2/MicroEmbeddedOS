@@ -10,21 +10,6 @@ INode inode_table[MAX_INODES];
 
 INode *current_inode;
 
-// char full_path[32] = {"\0"};
-
-// void pwd(INode *inode)
-// {
-//     while (inode != NULL) {
-//         if (inode->parent != NULL) {
-//             char tmp_path[32];
-//             strcpy(tmp_path, "/");
-//             strcat(tmp_path, inode->name);
-//             strcat(full_path, tmp_path);
-//         }
-//         inode = inode->parent;
-//     }
-// }
-
 void ls2(void)
 {
     for (int i = 0; i < MAX_INODE_ENTRIES; i ++) {
